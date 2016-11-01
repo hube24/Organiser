@@ -1,0 +1,22 @@
+package com.example.hubert.organiser;
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+/**
+ * Created by Hubert on 2016-10-21.
+ *
+ * Ekran tworzenia nowego zadania
+ *
+ * Do uzupełnienia
+ */
+
+public class CreateTaskScreen extends Fragment {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.start_screen,container,false);
+    }
+}
