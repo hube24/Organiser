@@ -1,5 +1,6 @@
 package com.example.hubert.organiser;
 
+import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -39,13 +40,14 @@ public class Task implements Comparable<Task> {
         return Dyear;
     }
 
+
     public static class Comparators {
 
         public static Comparator<Task> Prior = new Comparator<Task>() {
 
             @Override
             public int compare(Task obfirst, Task obsecond) {
-                int i = obfirst.Priority.compareTo(obsecond.Priority);
+                int i = obfirst.Priority - obsecond.Priority;
                 if (i == 0) {
                     i = obfirst.Dyear - obsecond.Dyear;
                     if(i==0){
