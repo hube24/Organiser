@@ -38,18 +38,25 @@ class MyComparator implements Comparator<Task> {
 
 public class Tasks {
 
-    public static void Task(String[] args) {
-        List<Task> TaskList = new ArrayList<Task>();
+    List<Task> TaskList = new ArrayList<Task>();
+
+    public void addTask(Task t)
+    {
+        this.TaskList.add(t);
+    }
+
+
+   public void Task(String[] args) {
+
         TaskList.add(new Task("FC Barcelona", "ops", 1, 1, 1, 1));
         TaskList.add(new Task("Arsenal FC", "w?", 1, 2, 3, 4));
         TaskList.add(new Task("Chelsea", "sss", 1, 2, 3, 2));
 
         Collections.sort(TaskList, new MyComparator());
 
+
         for (Task obie : TaskList) {
             System.out.println(obie.Title + ": " + obie.Priority + " PRIORYTET");
         }
-
     }
-
 }
