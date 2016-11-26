@@ -23,10 +23,4 @@ public class Task {
         Dyear = nDyear;
     }
 
-    public void AddToLocal()
-    {
-        Tasks.TasksList.add(this);
-        // sort / update list etc.
-    }
-
 }
