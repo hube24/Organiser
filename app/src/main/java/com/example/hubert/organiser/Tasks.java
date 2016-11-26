@@ -20,4 +20,10 @@ public class Tasks extends Application{
     {
         this.TaskList.add(t);
     }
+
+    public void sortTasks()
+    {
+        Collections.sort(this.TaskList, Task.Comparators.Prior);
+
+    }
 }
