@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
-import java.util.Date;
 
 /**
  * Created by Hubert on 2016-10-21.
@@ -31,13 +30,16 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        TitleText = (EditText) getView().findViewById(R.id.titleText);
-        DescriptionText = (EditText) getView().findViewById(R.id.descriptionText);
-        DatePick = (DatePicker) getView().findViewById(R.id.datePicker);
-        Priority = (SeekBar) getView().findViewById(R.id.seekBar);
-        SaveButton = (Button) getView().findViewById(R.id.saveButton);
+        View v = inflater.inflate(R.layout.create_task_screen, container, false);
+
+        TitleText = (EditText) v.findViewById(R.id.titleText);
+        DescriptionText = (EditText) v.findViewById(R.id.descriptionText);
+        DatePick = (DatePicker) v.findViewById(R.id.datePicker);
+        Priority = (SeekBar) v.findViewById(R.id.seekBar);
+        SaveButton = (Button) v.findViewById(R.id.saveButton);
         SaveButton.setOnClickListener(this);
-        return inflater.inflate(R.layout.start_screen, container, false);
+
+        return  v;
     }
 
     private void saveBtnClicked()
@@ -49,16 +51,17 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener {
         int month = DatePick.getMonth();
         int year = DatePick.getYear();
 
+
         if(title == null)
         {
             Toast.makeText(getActivity(),"Please, fill the title first",Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Task ntask = new Task(title, description, day, month, year, priority );
-        ntask.AddToLocal();
 
-        Toast.makeText(getActivity(),"Activity added",Toast.LENGTH_SHORT).show();
+        Task ntask = new Task(title, description, day, month, year, priority );
+        ((Tasks)getActivity().getApplication()).addTask(ntask);
+        Toast.makeText(getActivity(),"Task added",Toast.LENGTH_SHORT).show();
     }
 
 
@@ -69,8 +72,7 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.saveButton:
-
-
+                saveBtnClicked();
                 break;
         }
     }

@@ -23,27 +23,4 @@ public class Task {
         Dyear = nDyear;
     }
 
-    public int getPriority() {
-        return Priority;
-    }
-
-    public int getDday() {
-        return Dday;
-    }
-
-    public int getDmonth() {
-        return Dmonth;
-    }
-
-    public int getDyear() {
-        return Dyear;
-    }
-
-
-    public void AddToLocal()
-    {
-        //Tasks.TasksList.add(this);
-        // sort / update list etc.
-    }
-
 }
