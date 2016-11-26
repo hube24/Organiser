@@ -7,7 +7,7 @@ import java.util.Date;
  * Created by Hubert on 2016-11-25.
  */
 
-public class Task implements Comparable<Task> {
+public class Task{
 
     public  String Title = new String();
     public  String Description = new String();
