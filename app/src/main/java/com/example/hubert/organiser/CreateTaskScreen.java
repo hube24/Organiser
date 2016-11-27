@@ -63,7 +63,7 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener {
 
         ((Tasks)getActivity().getApplication()).addTask(ntask);
         ((Tasks)getActivity().getApplication()).sortTasks();
-
+        ((Tasks)getActivity().getApplication()).updateList();
         Toast.makeText(getActivity(),"Task added",Toast.LENGTH_SHORT).show();
     }
 
