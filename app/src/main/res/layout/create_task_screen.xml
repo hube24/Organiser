@@ -28,13 +28,13 @@
                 android:ems="10"
                 android:id="@+id/titleText"
                 android:textColor="#445878"
-                android:textAlignment="textStart"
+                android:textAlignment="center"
                 android:textSize="30sp"
                 android:layout_weight="0.02"
                 android:singleLine="false"
                 android:contentDescription="Title"
                 android:text=""
-                android:hint="title"
+                android:hint="TITLE"
                 android:fontFamily="sans-serif" />
 
             <EditText
@@ -45,19 +45,20 @@
                 android:id="@+id/descriptionText"
                 android:layout_weight="0.58"
                 android:textColor="#445878"
-                android:textAlignment="textStart"
+                android:textAlignment="center"
                 android:contentDescription="Description"
                 android:text=""
-                android:hint="description"
+                android:hint="DESCRIPTION"
+                android:layout_gravity="center"
                 />
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:text="Priority"
+                    android:text="PRIORITY"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:id="@+id/textView"
@@ -66,7 +67,9 @@
                     android:textAlignment="center"
                     android:layout_weight="0.71"
                     android:gravity="center"
+                    android:layout_gravity="center"
                     />
+
 
                 <SeekBar
                     android:layout_width="286dp"
@@ -74,8 +77,35 @@
                     android:id="@+id/seekBar"
                     android:layout_weight="1"
                     android:max="10"
+                    android:layout_gravity="center"
                     android:progress="1" />
+
+
+                <RelativeLayout
+                    android:layout_width="271dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/start1"
+                        android:paddingLeft="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0" />
+
+                    <TextView
+                        android:id="@+id/koniec1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="10dp"
+                        android:text="10" />
+
+                </RelativeLayout>
+
             </LinearLayout>
+
 
             <DatePicker
                 android:layout_height="363dp"
