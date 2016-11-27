@@ -49,7 +49,7 @@ public class Tasks extends Application{
     public void sortTasks()
     {
         Collections.sort(this.TaskList, Task.Comparators.Prior);
-
+        Collections.reverse(this.TaskList);
         debug();
     }
     
