@@ -47,13 +47,13 @@ public class Task{
 
             @Override
             public int compare(Task obfirst, Task obsecond) {
-                int i = obfirst.Priority - obsecond.Priority;
+                int i = obfirst.Dyear - obsecond.Dyear;
                 if (i == 0) {
-                    i = obfirst.Dyear - obsecond.Dyear;
+                    i = obfirst.Dmonth - obsecond.Dmonth;
                     if(i==0){
-                        i = obfirst.Dmonth - obsecond.Dmonth;
+                        i = obfirst.Dday - obsecond.Dday;
                         if(i==0){
-                            i= obfirst.Dday - obsecond.Dday;
+                            i= obsecond.Priority - obfirst.Priority;
                         }
                     }
                 }

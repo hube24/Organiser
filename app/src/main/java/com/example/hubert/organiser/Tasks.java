@@ -38,6 +38,7 @@ public class Tasks extends Application{
         for (Task t:this.TaskList) {
             TaskNames.add(t.Title);
         }
+
         adapter.notifyDataSetChanged();
     }
 
@@ -49,7 +50,6 @@ public class Tasks extends Application{
     public void sortTasks()
     {
         Collections.sort(this.TaskList, Task.Comparators.Prior);
-        Collections.reverse(this.TaskList);
         debug();
     }
     

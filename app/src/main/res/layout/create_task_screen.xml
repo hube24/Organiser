@@ -113,7 +113,6 @@
 
 
             <DatePicker
-                android:layout_height="363dp"
                 android:id="@+id/datePicker"
                 android:layout_width="320dp"
                 android:layout_gravity="top|center_horizontal"
@@ -122,7 +121,8 @@
                 android:scaleX="0.8"
                 android:scaleY="0.8"
                 android:spinnersShown="false"
-                android:layout_marginTop="0dp" />
+                android:layout_marginTop="0dp"
+                android:layout_height="400dp" />
 
             <Button
                 android:text="SAVE"
