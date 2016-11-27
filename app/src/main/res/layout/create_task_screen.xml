@@ -33,7 +33,9 @@
                 android:layout_weight="0.02"
                 android:singleLine="false"
                 android:contentDescription="Title"
-                android:text="Title" />
+                android:text=""
+                android:hint="title"
+                android:fontFamily="sans-serif" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -45,7 +47,9 @@
                 android:textColor="#445878"
                 android:textAlignment="textStart"
                 android:contentDescription="Description"
-                android:text="Description" />
+                android:text=""
+                android:hint="description"
+                />
 
             <LinearLayout
                 android:orientation="horizontal"
