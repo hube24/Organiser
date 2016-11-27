@@ -13,6 +13,6 @@ import android.view.ViewGroup;
 public class StartScreen extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.create_task_screen,container,false);
+        return inflater.inflate(R.layout.start_screen,container,false);
     }
 }

@@ -52,7 +52,7 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener {
         int year = DatePick.getYear();
 
 
-        if(title == null)
+        if(title.isEmpty())
         {
             Toast.makeText(getActivity(),"Please, fill the title first",Toast.LENGTH_SHORT).show();
             return;

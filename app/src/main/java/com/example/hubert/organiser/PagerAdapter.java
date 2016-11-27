@@ -18,9 +18,9 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
         switch (position)
         {
-            case 1:
-                return new StartScreen();
             case 0:
+                return new StartScreen();
+            case 1:
                 return new CreateTaskScreen();
             default: break;
         }
