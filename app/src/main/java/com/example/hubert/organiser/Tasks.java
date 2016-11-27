@@ -1,6 +1,7 @@
 package com.example.hubert.organiser;
 
 import android.app.Application;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +25,13 @@ public class Tasks extends Application{
     public void sortTasks()
     {
         Collections.sort(this.TaskList, Task.Comparators.Prior);
-
+        debug();
+    }
+    
+    private void debug()
+    {
+        for (Task t: TaskList) {
+            Log.d("tasks","title="+t.Title+", prior="+t.Priority + ", Date="+ t.Dday + "-" + t.Dmonth + "-" + t.Dyear);
+        }
     }
 }
