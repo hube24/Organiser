@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -20,12 +21,13 @@ import android.widget.Toast;
  * Do uzupełnienia
  */
 
-public class CreateTaskScreen extends Fragment implements View.OnClickListener {
+public class CreateTaskScreen extends Fragment implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
 
     EditText TitleText;
     EditText DescriptionText;
     DatePicker DatePick;
     SeekBar Priority;
+    TextView ActualPriority;
     Button SaveButton;
 
     @Override
@@ -36,6 +38,8 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener {
         DescriptionText = (EditText) v.findViewById(R.id.descriptionText);
         DatePick = (DatePicker) v.findViewById(R.id.datePicker);
         Priority = (SeekBar) v.findViewById(R.id.seekBar);
+        Priority.setOnSeekBarChangeListener(this);
+        ActualPriority = (TextView) v.findViewById(R.id.actual);
         SaveButton = (Button) v.findViewById(R.id.saveButton);
         SaveButton.setOnClickListener(this);
 
@@ -71,6 +75,11 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener {
         /* przy obiektach typu 'Fragment' aby dzialaly przyciski, ustawiamy osobisty dla danego fragmentu 'listener'.
     Nastepnie przy nacisnieciu sprawdzamy id przycisku i wykonujemy odpowiednie dla niego akcje */
 
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) { //Tutaj wyswietlam wartosc priority w actual
+        ActualPriority.setText(""+progress);
+    }
+    public void onStartTrackingTouch(SeekBar seekBar) {}
+    public void onStopTrackingTouch(SeekBar seekBar) {}
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

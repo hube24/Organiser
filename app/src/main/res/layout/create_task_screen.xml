@@ -107,6 +107,14 @@
                         android:paddingRight="10dp"
                         android:text="10" />
 
+                    <TextView
+                        android:text="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/actual"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true" />
+
                 </RelativeLayout>
 
             </LinearLayout>
