@@ -67,6 +67,7 @@ public class Tasks extends Application{
         }
         sortTasks();
         updateList();
+        db.close();
     }
     
     private void debug()
