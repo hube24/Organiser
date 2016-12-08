@@ -39,6 +39,7 @@ public class Tasks extends Application{
     public  void  updateList()
     {
         TaskNames.clear();
+
         for (Task t:this.TaskList) {
             TaskNames.add(t.getTitle());
         }
@@ -61,7 +62,7 @@ public class Tasks extends Application{
         Cursor el = db.getTasks();
         while (el.moveToNext()){
             Task ntask = new Task();
-            ntask.setTask(el.getString(1), el.getString(2), el.getInt(3), el.getInt(4), el.getInt(5), el.getInt(6) );
+            ntask.setTask(el.getInt(0), el.getString(1), el.getString(2), el.getInt(3), el.getInt(4), el.getInt(5), el.getInt(6) );
             addTask(ntask);
         }
         sortTasks();

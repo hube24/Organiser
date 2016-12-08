@@ -18,8 +18,9 @@ public class Task{
     private int month;
     private int year;
 
-    public void setTask(String ntitle, String ndescription, int nday, int nmonth, int nyear , int npriority)
+    public void setTask(int nid, String ntitle, String ndescription, int nday, int nmonth, int nyear , int npriority)
     {
+        id = nid;
         title = ntitle;
         description = ndescription;
         priority = npriority;
