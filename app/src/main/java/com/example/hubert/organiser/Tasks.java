@@ -31,12 +31,15 @@ public class Tasks extends Application{
     {
         adapter = new ArrayAdapter<String>(this, R.layout.tasks_list_element, R.id.textViewElement ,TaskNames);
     }
-
+    public void clearList(){
+        TaskList.clear();
+        Log.d("tasks","clear");
+    }
     public  void  updateList()
     {
         TaskNames.clear();
         for (Task t:this.TaskList) {
-            TaskNames.add(t.Title);
+            TaskNames.add(t.getTitle());
         }
 
         adapter.notifyDataSetChanged();
@@ -56,7 +59,7 @@ public class Tasks extends Application{
     private void debug()
     {
         for (Task t: TaskList) {
-            Log.d("tasks","title="+t.Title+", prior="+t.Priority + ", Date="+ t.Dday + "-" + t.Dmonth + "-" + t.Dyear);
+            Log.d("tasks","title="+t.getTitle()+", prior="+t.getPriority() + ", Date="+ t.getDay() + "-" + t.getMonth() + "-" + t.getYear());
         }
     }
 }

@@ -5,40 +5,42 @@ import java.util.Date;
 
 /**
  * Created by Hubert on 2016-11-25.
+ *
+ * dodane inty do obslugi DataBase
  */
 
 public class Task{
+    private int id;
+    private String title = new String();
+    private String description = new String();
+    private int priority;
+    private int day;
+    private int month;
+    private int year;
 
-    public  String Title = new String();
-    public  String Description = new String();
-    public  int Priority;
-    public  int Dday,Dmonth,Dyear;
-
-    public Task(String ntitle, String ndescription, int nDday, int nDmonth, int nDyear , Integer npriority)
+    public void setTask(String ntitle, String ndescription, int nday, int nmonth, int nyear , int npriority)
     {
-        Title = ntitle;
-        Description = ndescription;
-        Priority = npriority;
-        Dday = nDday;
-        Dmonth = nDmonth;
-        Dyear = nDyear;
+        title = ntitle;
+        description = ndescription;
+        priority = npriority;
+        day = nday;
+        month = nmonth;
+        year = nyear;
     }
-
-    public int getPriority() {
-        return Priority;
-    }
-
-    public int getDday() {
-        return Dday;
-    }
-
-    public int getDmonth() {
-        return Dmonth;
-    }
-
-    public int getDyear() {
-        return Dyear;
-    }
+    public int getId() {return id;}
+    public void setId(int id){this.id = id;}
+    public String getTitle(){return title;}
+    public void setTitle(String title){this.title = title;}
+    public String getDescription(){return description;}
+    public void setDescription(String description){this.description = description;}
+    public int getPriority(){return priority;}
+    public void setPriority(int priority){this.priority = priority;}
+    public int getDay(){return day;}
+    public void setDay(int day){this.day = day;}
+    public int getMonth(){return month;}
+    public void setMonth(int month){this.month = month;}
+    public int getYear(){return year;}
+    public void setYear(int year){this.year = year;}
 
 
     public static class Comparators {
@@ -47,13 +49,13 @@ public class Task{
 
             @Override
             public int compare(Task obfirst, Task obsecond) {
-                int i = obfirst.Dyear - obsecond.Dyear;
+                int i = obfirst.getYear() - obsecond.getYear();
                 if (i == 0) {
-                    i = obfirst.Dmonth - obsecond.Dmonth;
+                    i = obfirst.getMonth() - obsecond.getMonth();
                     if(i==0){
-                        i = obfirst.Dday - obsecond.Dday;
+                        i = obfirst.getDay() - obsecond.getDay();
                         if(i==0){
-                            i= obsecond.Priority - obfirst.Priority;
+                            i= obsecond.getPriority() - obfirst.getPriority();
                         }
                     }
                 }

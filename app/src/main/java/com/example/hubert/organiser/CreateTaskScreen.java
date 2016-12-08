@@ -63,8 +63,9 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
             return;
         }
 
-        db.addTask(title,description,day,month,year,priority);
-        Task ntask = new Task(title, description, day, month, year, priority );
+        Task ntask = new Task();
+        ntask.setTask(title, description, day, month, year, priority );
+        db.addTask(ntask);
 
         ((Tasks)getActivity().getApplication()).addTask(ntask);
         ((Tasks)getActivity().getApplication()).sortTasks();

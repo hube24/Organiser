@@ -33,8 +33,8 @@ public class StartScreen extends Fragment {
         DataBase db = new DataBase(getContext());
         Cursor el = db.getTasks();
         while (el.moveToNext()){
-
-            Task ntask = new Task(el.getString(1), el.getString(2), el.getInt(3), el.getInt(4), el.getInt(5), el.getInt(6) );
+            Task ntask = new Task();
+            ntask.setTask(el.getString(1), el.getString(2), el.getInt(3), el.getInt(4), el.getInt(5), el.getInt(6) );
 
             ((Tasks)getActivity().getApplication()).addTask(ntask);
         }
