@@ -20,22 +20,22 @@ public class MainActivity extends FragmentActivity {
         viewpager = (ViewPager) findViewById(R.id.pager);
         PagerAdapter padapter = new PagerAdapter(getSupportFragmentManager());
         viewpager.setAdapter(padapter);
-        Log.d("Activity","onCreate");
+//        Log.d("Activity","onCreate");
     }
     @Override
     public void onStop(){
-        Log.d("Activity","onStop");
+//        Log.d("Activity","onStop");
         ((Tasks)(MainActivity.this).getApplication()).clearList();
         super.onStop();
     }
     @Override
     public void onPause(){
-        Log.d("Activity","onPause");
+//        Log.d("Activity","onPause");
         super.onPause();
     }
     @Override
     public void onResume(){
-        Log.d("Activity","onResume");
+//        Log.d("Activity","onResume");
         super.onResume();
     }
 }

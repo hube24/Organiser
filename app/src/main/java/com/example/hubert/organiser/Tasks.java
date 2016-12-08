@@ -1,6 +1,7 @@
 package com.example.hubert.organiser;
 
 import android.app.Application;
+import android.database.Cursor;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -33,7 +34,7 @@ public class Tasks extends Application{
     }
     public void clearList(){
         TaskList.clear();
-        Log.d("tasks","clear");
+//        Log.d("tasks","clear");
     }
     public  void  updateList()
     {
@@ -53,7 +54,18 @@ public class Tasks extends Application{
     public void sortTasks()
     {
         Collections.sort(this.TaskList, Task.Comparators.Prior);
-        debug();
+//        debug();
+    }
+    public void loadTasks(){
+        DataBase db = new DataBase(getApplicationContext());
+        Cursor el = db.getTasks();
+        while (el.moveToNext()){
+            Task ntask = new Task();
+            ntask.setTask(el.getString(1), el.getString(2), el.getInt(3), el.getInt(4), el.getInt(5), el.getInt(6) );
+            addTask(ntask);
+        }
+        sortTasks();
+        updateList();
     }
     
     private void debug()
