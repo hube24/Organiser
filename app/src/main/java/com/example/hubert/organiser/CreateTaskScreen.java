@@ -48,6 +48,7 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
 
     private void saveBtnClicked()
     {
+        DataBase db = new DataBase(getContext());
         String title = TitleText.getText().toString();
         String description = DescriptionText.getText().toString();
         int priority = Priority.getProgress();
@@ -62,7 +63,7 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
             return;
         }
 
-
+        db.addTask(title,description,day,month,year,priority);
         Task ntask = new Task(title, description, day, month, year, priority );
 
         ((Tasks)getActivity().getApplication()).addTask(ntask);
