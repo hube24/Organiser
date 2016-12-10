@@ -1,16 +1,22 @@
 package com.example.hubert.organiser;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -23,8 +29,8 @@ import android.widget.Toast;
 
 public class CreateTaskScreen extends Fragment implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
 
-    EditText TitleText;
-    EditText DescriptionText;
+    AutoCompleteTextView  TitleText;
+    AutoCompleteTextView  DescriptionText;
     DatePicker DatePick;
     SeekBar Priority;
     TextView ActualPriority;
@@ -34,14 +40,15 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.create_task_screen, container, false);
 
-        TitleText = (EditText) v.findViewById(R.id.titleText);
-        DescriptionText = (EditText) v.findViewById(R.id.descriptionText);
+        TitleText = (AutoCompleteTextView) v.findViewById(R.id.titleText);
+        DescriptionText = (AutoCompleteTextView) v.findViewById(R.id.descriptionText);
         DatePick = (DatePicker) v.findViewById(R.id.datePicker);
         Priority = (SeekBar) v.findViewById(R.id.seekBar);
         Priority.setOnSeekBarChangeListener(this);
         ActualPriority = (TextView) v.findViewById(R.id.actual);
         SaveButton = (Button) v.findViewById(R.id.saveButton);
         SaveButton.setOnClickListener(this);
+        reloadSugestions();
 
         return  v;
     }
@@ -69,8 +76,22 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
         ((Tasks)getActivity().getApplication()).clearList();
         ((Tasks)getActivity().getApplication()).loadTasks();
         Toast.makeText(getActivity(),"Task added",Toast.LENGTH_SHORT).show();
+        reloadSugestions();
     }
-
+    private void reloadSugestions(){
+        ArrayList<String> titles = new ArrayList<String>();
+        ArrayList<String> descriptions = new ArrayList<String>();
+        DataBase db = new DataBase(getContext());
+        String[] setNames = {"title","description"};
+        Cursor el = db.getTasks(setNames);
+        while (el.moveToNext()){
+            titles.add(el.getString(0));
+            descriptions.add(el.getString(1));
+        }
+        db.close();
+        TitleText.setAdapter(new ArrayAdapter<String>(getContext(),R.layout.sugestion_element,R.id.textViewElement,titles));
+        DescriptionText.setAdapter(new ArrayAdapter<String>(getContext(),R.layout.sugestion_element,R.id.textViewElement,descriptions));
+    }
 
         /* przy obiektach typu 'Fragment' aby dzialaly przyciski, ustawiamy osobisty dla danego fragmentu 'listener'.
     Nastepnie przy nacisnieciu sprawdzamy id przycisku i wykonujemy odpowiednie dla niego akcje */

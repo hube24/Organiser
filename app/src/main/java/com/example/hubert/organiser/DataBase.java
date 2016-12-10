@@ -76,8 +76,7 @@ public class DataBase extends SQLiteOpenHelper{
         }
         return task;
     }
-    public Cursor getTasks(){ //dodac setNames jako wartość
-        String[] setNames = {"id","title","description","priority","day","month","year"};
+    public Cursor getTasks(String[] setNames){ //dodac setNames jako wartość
         SQLiteDatabase db = getReadableDatabase();
         Cursor ret = db.query("tasks",setNames,null,null,null,null,null);
         return ret;
