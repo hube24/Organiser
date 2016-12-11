@@ -2,6 +2,7 @@ package com.example.hubert.organiser;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +65,7 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
         }
 
         Task ntask = new Task();
-        ntask.setTask(0,title, description, day, month, year, priority );
+        ntask.setTask(0,title, description, priority, day, month, year);
         db.addTask(ntask);
         ((Tasks)getActivity().getApplication()).clearList();
         ((Tasks)getActivity().getApplication()).loadTasks();

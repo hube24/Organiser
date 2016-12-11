@@ -1,18 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1">
+    android:layout_width="match_parent"
+    android:weightSum="1"
+    android:layout_height="60dp"
+    android:orientation="horizontal">
 
     <TextView
         android:text="TextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/textViewElement"
         android:textAlignment="center"
         android:textSize="30sp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_width="281dp"
+        android:gravity="center" />
+
+    <TextView
+        android:text="Tommorow"
+        android:layout_height="match_parent"
+        android:id="@+id/textViewTimeLeft"
+        android:gravity="center"
+        android:textSize="10sp"
+        android:layout_width="55dp" />
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/lvCheckBox"
+        android:gravity="right|center_vertical|center_horizontal|center"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        android:layout_marginLeft="30dp" />
 
     <LinearLayout
         android:orientation="vertical"

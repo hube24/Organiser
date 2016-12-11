@@ -10,30 +10,76 @@
         android:layout_width="match_parent"
         android:layout_height="60dp">
 
-        <TextView
-            android:text="Your tasks : "
-            android:layout_width="match_parent"
-            android:id="@+id/textView2"
-            android:textAlignment="center"
-            android:textSize="32sp"
-            android:textColor="#445878"
-            android:layout_height="35dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp" />
-
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#445878"></LinearLayout>
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:weightSum="1">
+
+                <TextView
+                    android:text="Your tasks : "
+                    android:id="@+id/textView2"
+                    android:textAlignment="center"
+                    android:textSize="32sp"
+                    android:textColor="#445878"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.08"
+                    android:layout_width="260dp"
+                    android:gravity="center" />
+
+                <TextView
+                    android:text="Deadline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/textView4"
+                    android:textAlignment="center"
+                    android:gravity="center" />
+
+                <TextView
+                android:text="Done:"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:id="@+id/textView3"
+                android:textSize="20sp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_marginLeft="20dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:background="#445878"
+                android:layout_height="3dp"
+                android:alpha="0.5"></LinearLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
 
-    <ListView
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tasksListView"
-        android:layout_marginTop="52dp"
-        android:layout_below="@+id/linearLayout"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/linearLayout2"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:gravity="top">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tasksListView"
+            android:layout_marginTop="60dp"
+            android:layout_below="@+id/linearLayout2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </LinearLayout>
+
 </RelativeLayout>

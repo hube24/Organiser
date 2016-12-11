@@ -19,8 +19,7 @@ public class Tasks extends Application{
 
 
     List<Task> TaskList = new ArrayList<Task>();
-    ArrayList<String> TaskNames = new ArrayList<>();
-    ArrayAdapter<String> adapter;
+    taskListViewAdapter adapter;
 
 
     public void addTask(Task t)
@@ -30,7 +29,7 @@ public class Tasks extends Application{
 
     public void setAdapter()
     {
-        adapter = new ArrayAdapter<String>(this, R.layout.tasks_list_element, R.id.textViewElement ,TaskNames);
+        adapter = new taskListViewAdapter(this,R.layout.tasks_list_element,TaskList);
     }
     public void clearList(){
         TaskList.clear();
@@ -38,16 +37,10 @@ public class Tasks extends Application{
     }
     public  void  updateList()
     {
-        TaskNames.clear();
-
-        for (Task t:this.TaskList) {
-            TaskNames.add(t.getTitle());
-        }
-
         adapter.notifyDataSetChanged();
     }
 
-    public  ArrayAdapter<String> getAdapter()
+    public  taskListViewAdapter getAdapter()
     {
         return  adapter;
     }
@@ -55,7 +48,7 @@ public class Tasks extends Application{
     public void sortTasks()
     {
         Collections.sort(this.TaskList, Task.Comparators.Prior);
-//        debug();
+        debug();
     }
     public void loadTasks(){
         DataBase db = new DataBase(getApplicationContext());
@@ -69,7 +62,7 @@ public class Tasks extends Application{
         updateList();
         db.close();
     }
-    
+
     private void debug()
     {
         for (Task t: TaskList) {
