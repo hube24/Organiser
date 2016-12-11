@@ -1,4 +1,3 @@
-
 package com.example.hubert.organiser;
 
 import android.content.ClipData;
@@ -29,14 +28,15 @@ import java.util.StringTokenizer;
 
 public class taskListViewAdapter extends ArrayAdapter<Task>{
 
-
-
+    DataBase db = new DataBase(getContext().getApplicationContext());
+    Context tasksContext;
     public taskListViewAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
     }
 
     public taskListViewAdapter(Context context, int resource, List<Task> items) {
         super(context, resource, items);
+        tasksContext = context;
     }
 
     @Override
@@ -56,39 +56,46 @@ public class taskListViewAdapter extends ArrayAdapter<Task>{
             TextView tt1 = (TextView) v.findViewById(R.id.textViewElement);
             TextView tt2 = (TextView) v.findViewById(R.id.textViewTimeLeft);
             CheckBox checkBox = (CheckBox) v.findViewById(R.id.lvCheckBox);
-
+            checkBox.setChecked(false);
             checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     //usuwanie zadania
-                    //Log.d("task checked","checked pos"+Integer.toString(position));
+                    if(isChecked) {
+                        db.deleteTask(tsk.getId());
+
+                        ((Tasks) tasksContext.getApplicationContext()).clearList();
+                        ((Tasks) tasksContext.getApplicationContext()).loadTasks();
+                        //Log.d("task checked","checked pos"+Integer.toString(position));
+                    }
                 }
             });
+
             if (tt1 != null) {
-                Log.d("textviewfound","testviewfound" + tsk.getTitle());
+               // Log.d("textviewfound","testviewfound" + tsk.getTitle());
                 tt1.setText(tsk.getTitle());
             }
 
             if (tt2 != null) {
 
                 //roznica czasu miedzy deadlinem zadania a dzisiaj
-                    Calendar tasktime = Calendar.getInstance();  //task time
-                    tasktime.set(tsk.getYear(),tsk.getMonth(),tsk.getDay());
-                    //Log.d("taskdate", Integer.toString(tsk.getYear())  + " " +  Integer.toString(tsk.getMonth()) + " " +   Integer.toString(tsk.getDay()));
-                    Calendar currtime = Calendar.getInstance(); //current time
-                    long diff = tasktime.getTimeInMillis() -currtime.getTimeInMillis(); //result in millis
-                    long days = (diff / (24 * 60 * 60 * 1000))-1;
-                    if(days<1 && days>-1){ tt2.setText("today!");} else
-                    if(days==1){ tt2.setText("tommorow");} else
-                    { tt2.setText(Integer.toString((int)days)+" days");  }
+                Calendar tasktime = Calendar.getInstance();  //task time
+                tasktime.set(tsk.getYear(),tsk.getMonth(),tsk.getDay());
+                //Log.d("taskdate", Integer.toString(tsk.getYear())  + " " +  Integer.toString(tsk.getMonth()) + " " +   Integer.toString(tsk.getDay()));
+                Calendar currtime = Calendar.getInstance(); //current time
+                long diff = tasktime.getTimeInMillis() -currtime.getTimeInMillis(); //result in millis
+                long days = (diff / (24 * 60 * 60 * 1000))-1;
+                if(days<1 && days>-1){ tt2.setText("today!");} else
+                if(days==1){ tt2.setText("tommorow");} else
+                { tt2.setText(Integer.toString((int)days)+" days");  }
 
-                }
             }
-        return v;
         }
+        return v;
+    }
 
 
 
 
 }
-
