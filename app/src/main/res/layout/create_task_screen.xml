@@ -21,7 +21,7 @@
             android:layout_centerHorizontal = "true"
             >
 
-            <EditText
+            <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
@@ -40,7 +40,7 @@
                 android:layout_marginTop="10dp"
                 />
 
-            <EditText
+            <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
@@ -146,5 +146,4 @@
 
         </LinearLayout>
     </ScrollView>
-
 </RelativeLayout>

@@ -52,7 +52,8 @@ public class Tasks extends Application{
     }
     public void loadTasks(){
         DataBase db = new DataBase(getApplicationContext());
-        Cursor el = db.getTasks();
+        String[] setNames = {"id","title","description","priority","day","month","year"};
+        Cursor el = db.getTasks(setNames);
         while (el.moveToNext()){
             Task ntask = new Task();
             ntask.setTask(el.getInt(0), el.getString(1), el.getString(2), el.getInt(3), el.getInt(4), el.getInt(5), el.getInt(6) );
@@ -60,7 +61,8 @@ public class Tasks extends Application{
         }
         sortTasks();
         updateList();
-        db.close();
+
+
     }
 
     private void debug()
