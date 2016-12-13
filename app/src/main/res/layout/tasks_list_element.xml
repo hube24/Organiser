@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:id="@+id/textViewElement"
         android:textAlignment="center"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:layout_width="281dp"
         android:gravity="center" />
 
