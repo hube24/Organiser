@@ -17,8 +17,9 @@ public class Task{
     private int day;
     private int month;
     private int year;
+    private boolean checked;
 
-    public void setTask(int nid, String ntitle, String ndescription, int npriority, int nday, int nmonth, int nyear )
+    public void setTask(int nid, String ntitle, String ndescription, int npriority, int nday, int nmonth, int nyear, boolean nchecked)
     {
         id = nid;
         title = ntitle;
@@ -27,6 +28,7 @@ public class Task{
         day = nday;
         month = nmonth;
         year = nyear;
+        checked = nchecked;
     }
     public int getId() {return id;}
     public void setId(int id){this.id = id;}
@@ -42,8 +44,11 @@ public class Task{
     public void setMonth(int month){this.month = month;}
     public int getYear(){return year;}
     public void setYear(int year){this.year = year;}
+    public boolean getChecked(){return checked;}
+    public void setChecked(boolean check){this.checked = check;}
 
 
+    /*      STARE SORTOWANIE
     public static class Comparators {
 
         public static Comparator<Task> Prior = new Comparator<Task>() {
@@ -65,5 +70,5 @@ public class Task{
 
         };
     }
-
+    */
 }

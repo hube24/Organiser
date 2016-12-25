@@ -18,6 +18,10 @@ public class DataBase extends SQLiteOpenHelper{
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL("create table `tips` (" +
+                "id integer not null primary key autoincrement," +
+                "value text," +
+                "type integer not null);" );
         db.execSQL("create table tasks (" +
                 "id integer not null primary key autoincrement," +
                 "title text," +
@@ -25,7 +29,8 @@ public class DataBase extends SQLiteOpenHelper{
                 "priority integer not null," +
                 "day integer not null," +
                 "month integer not null," +
-                "year integer not null);" );
+                "year integer not null," +
+                "checked integer DEFAULT 0);" );
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldV, int newV){}
@@ -38,7 +43,20 @@ public class DataBase extends SQLiteOpenHelper{
         values.put("day",task.getDay());
         values.put("month",task.getMonth());
         values.put("year",task.getYear());
+        values.put("checked",task.getChecked());
         db.insertOrThrow("tasks",null,values);
+    }
+    public void addTip(String value, int type){
+        SQLiteDatabase db = getWritableDatabase();
+        String[] setNames = {"value"};
+        String[] args = {value,""+type};
+        Cursor el = db.query("tips",setNames,"value=? AND type=?",args,null,null,null,null);
+        if(el.getCount()<=0){
+            ContentValues values = new ContentValues();
+            values.put("value",value);
+            values.put("type",type);
+            db.insertOrThrow("tips",null,values);
+        }
     }
     public void deleteTask(int id){
         SQLiteDatabase db = getWritableDatabase();
@@ -55,15 +73,27 @@ public class DataBase extends SQLiteOpenHelper{
         values.put("day",task.getDay());
         values.put("month",task.getMonth());
         values.put("year",task.getYear());
+        values.put("checked",task.getChecked());
         String[] args = {""+task.getId()};
         db.update("tasks",values,"id=?",args);
+    }
+    public void checkingTask(int id){
+        Task task=getTask(id);
+        if(task.getChecked()==true) {
+            task.setChecked(false);
+            Log.d("Buzek","false");
+        } else {
+            task.setChecked(true);
+            Log.d("Buzek","true");
+        }
+        changeTask(task);
     }
     public Task getTask(int id){
         Task task = new Task();
         SQLiteDatabase db = getReadableDatabase();
-        String[] setNames = {"id","title","description","priority","day","month","year"};
+        String[] setNames = {"id","title","description","priority","day","month","year","checked"};
         String[] args = {""+id};
-        Cursor el = db.query("tasks",setNames,"nr=?",args,null,null,null,null);
+        Cursor el = db.query("tasks",setNames,"id=?",args,null,null,null,null);
         if(el!=null){
             el.moveToFirst();
             task.setId(el.getInt(0));
@@ -73,12 +103,20 @@ public class DataBase extends SQLiteOpenHelper{
             task.setDay(el.getInt(4));
             task.setMonth(el.getInt(5));
             task.setYear(el.getInt(6));
+            task.setChecked(el.getInt(7)>0);
         }
         return task;
     }
-    public Cursor getTasks(String[] setNames){ //dodac setNames jako wartość
+    public Cursor getTasks(String[] setNames){
         SQLiteDatabase db = getReadableDatabase();
-        Cursor ret = db.query("tasks",setNames,null,null,null,null,null);
+        Cursor ret = db.query("tasks",setNames,null,null,null,null,"checked, year, month, day, priority DESC",null);
+        return ret;
+    }
+    public Cursor getTips(int type){
+        SQLiteDatabase db = getReadableDatabase();
+        String[] setNames = {"value"};
+        String[] args = {""+type};
+        Cursor ret = db.query("tips",setNames,"type=?",args,null,null,null,null);
         return ret;
     }
 }

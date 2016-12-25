@@ -56,7 +56,7 @@ public class taskListViewAdapter extends ArrayAdapter<Task>{
             TextView tt1 = (TextView) v.findViewById(R.id.textViewElement);
             TextView tt2 = (TextView) v.findViewById(R.id.textViewTimeLeft);
             CheckBox checkBox = (CheckBox) v.findViewById(R.id.lvCheckBox);
-            checkBox.setChecked(false);
+            checkBox.setChecked(tsk.getChecked());
             checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
                 @Override
@@ -64,10 +64,9 @@ public class taskListViewAdapter extends ArrayAdapter<Task>{
                     //usuwanie zadania
                     if(isChecked) {
                         db.deleteTask(tsk.getId());
-
                         ((Tasks) tasksContext.getApplicationContext()).clearList();
                         ((Tasks) tasksContext.getApplicationContext()).loadTasks();
-                        //Log.d("task checked","checked pos"+Integer.toString(position));
+                        Log.d("task checked", "checked pos" + Integer.toString(position));
                     }
                 }
             });

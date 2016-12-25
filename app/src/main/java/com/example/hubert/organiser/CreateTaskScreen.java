@@ -49,7 +49,7 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
         ActualPriority = (TextView) v.findViewById(R.id.actual);
         SaveButton = (Button) v.findViewById(R.id.saveButton);
         SaveButton.setOnClickListener(this);
-        reloadSugestions();
+        reloadTips();
 
         return  v;
     }
@@ -72,22 +72,26 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
         }
 
         Task ntask = new Task();
-        ntask.setTask(0,title, description, priority, day, month, year);
+        ntask.setTask(0,title, description, priority, day, month, year,false);
         db.addTask(ntask);
+        db.addTip(title,0);
+        db.addTip(description,1);
         ((Tasks)getActivity().getApplication()).clearList();
         ((Tasks)getActivity().getApplication()).loadTasks();
         Toast.makeText(getActivity(),"Task added",Toast.LENGTH_SHORT).show();
-        reloadSugestions();
+        reloadTips();
     }
-    private void reloadSugestions(){
+    private void reloadTips(){
         ArrayList<String> titles = new ArrayList<String>();
         ArrayList<String> descriptions = new ArrayList<String>();
         DataBase db = new DataBase(getContext());
-        String[] setNames = {"title","description"};
-        Cursor el = db.getTasks(setNames);
+        Cursor el = db.getTips(0);
         while (el.moveToNext()){
             titles.add(el.getString(0));
-            descriptions.add(el.getString(1));
+        }
+        Cursor el2 = db.getTips(1);
+        while (el2.moveToNext()){
+            descriptions.add(el2.getString(0));
         }
         db.close();
         TitleText.setAdapter(new ArrayAdapter<String>(getContext(),R.layout.sugestion_element,R.id.textViewElement,titles));

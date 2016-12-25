@@ -45,24 +45,22 @@ public class Tasks extends Application{
         return  adapter;
     }
 
+    /*      STARE SORTOWANIE
     public void sortTasks()
     {
         Collections.sort(this.TaskList, Task.Comparators.Prior);
         debug();
-    }
+    }*/
     public void loadTasks(){
         DataBase db = new DataBase(getApplicationContext());
-        String[] setNames = {"id","title","description","priority","day","month","year"};
+        String[] setNames = {"id","title","description","priority","day","month","year","checked"};
         Cursor el = db.getTasks(setNames);
         while (el.moveToNext()){
             Task ntask = new Task();
-            ntask.setTask(el.getInt(0), el.getString(1), el.getString(2), el.getInt(3), el.getInt(4), el.getInt(5), el.getInt(6) );
+            ntask.setTask(el.getInt(0), el.getString(1), el.getString(2), el.getInt(3), el.getInt(4), el.getInt(5), el.getInt(6), el.getInt(7)>0 );
             addTask(ntask);
         }
-        sortTasks();
         updateList();
-
-
     }
 
     private void debug()
