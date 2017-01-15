@@ -11,7 +11,7 @@
         android:id="@+id/textViewElement"
         android:textAlignment="center"
         android:textSize="20sp"
-        android:layout_width="281dp"
+        android:layout_width="230dp"
         android:gravity="center" />
 
     <TextView
