@@ -98,6 +98,7 @@ public class taskListViewAdapter extends ArrayAdapter<Task>{
             final String popdescription = "Description : " + tsk.getDescription();
             final String poppriority = "Priority : " + Integer.toString(tsk.getPriority());
             final String popdeadline = "Deadline : " + getCurrentDeadline();
+            final String popbefore = "Tasks before: " + Integer.toString(position);
 
             LinearLayout toInfoBtn = (LinearLayout) v.findViewById(R.id.toTaskInfoButton);
             toInfoBtn.setOnClickListener(new View.OnClickListener() {
@@ -111,11 +112,13 @@ public class taskListViewAdapter extends ArrayAdapter<Task>{
                     TextView popDescriptionTW = (TextView) container.findViewById(R.id.popupDescription);
                     TextView popPriorityTW = (TextView) container.findViewById(R.id.popupPriority);
                     TextView popDeadlineTW = (TextView) container.findViewById(R.id.popupDeadline);
+                    TextView popBeforeTW = (TextView) container.findViewById(R.id.popupBefore);
 
                     popTitleTW.setText(poptitle);
                     popDescriptionTW.setText(popdescription);
                     popPriorityTW.setText(poppriority);
                     popDeadlineTW.setText(popdeadline);
+                    popBeforeTW.setText(popbefore);
 
                     //tworzenie nowego popup window
                     taskInfoPopup = new PopupWindow(container,popwidth,popheight,true);
