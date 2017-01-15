@@ -3,24 +3,38 @@
     android:layout_width="match_parent"
     android:weightSum="1"
     android:layout_height="60dp"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:clickable="false">
 
-    <TextView
-        android:text="TextView"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="330dp"
         android:layout_height="match_parent"
-        android:id="@+id/textViewElement"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:layout_width="230dp"
-        android:gravity="center" />
+        android:id="@+id/toTaskInfoButton"
+        android:clickable="true"
+        android:focusable="true">
 
-    <TextView
-        android:text="Tommorow"
-        android:layout_height="match_parent"
-        android:id="@+id/textViewTimeLeft"
-        android:gravity="center"
-        android:textSize="10sp"
-        android:layout_width="55dp" />
+        <TextView
+            android:text="TextView"
+            android:layout_height="match_parent"
+            android:id="@+id/textViewElement"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:layout_width="281dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:duplicateParentState="true" />
+
+        <TextView
+            android:text="Tommorow"
+            android:layout_height="match_parent"
+            android:id="@+id/textViewTimeLeft"
+            android:gravity="center"
+            android:textSize="10sp"
+            android:layout_width="55dp"
+            android:layout_weight="1"
+            android:duplicateParentState="true" />
+    </LinearLayout>
 
     <CheckBox
         android:layout_width="match_parent"
@@ -31,10 +45,4 @@
         android:scaleY="1.5"
         android:layout_marginLeft="30dp" />
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="#000"
-        android:alpha=".3"></LinearLayout>
 </LinearLayout>

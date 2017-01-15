@@ -2,16 +2,24 @@ package com.example.hubert.organiser;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.graphics.Point;
 import android.os.Debug;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,8 +36,14 @@ import java.util.StringTokenizer;
 
 public class taskListViewAdapter extends ArrayAdapter<Task>{
 
+
+    private PopupWindow taskInfoPopup;
+    private LayoutInflater popupLayoutInflater;
+    Task tsk = new Task();
     DataBase db = new DataBase(getContext().getApplicationContext());
     Context tasksContext;
+
+
     public taskListViewAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
     }
@@ -40,7 +54,7 @@ public class taskListViewAdapter extends ArrayAdapter<Task>{
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
 
         View v = convertView;
         if (v == null) {
@@ -50,11 +64,11 @@ public class taskListViewAdapter extends ArrayAdapter<Task>{
         }
 
 
-        final Task tsk = getItem(position);
+         tsk = getItem(position);
 
         if (tsk != null) {
             TextView tt1 = (TextView) v.findViewById(R.id.textViewElement);
-            TextView tt2 = (TextView) v.findViewById(R.id.textViewTimeLeft);
+            final TextView tt2 = (TextView) v.findViewById(R.id.textViewTimeLeft);
             CheckBox checkBox = (CheckBox) v.findViewById(R.id.lvCheckBox);
             checkBox.setChecked(tsk.getChecked());
             checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -71,30 +85,82 @@ public class taskListViewAdapter extends ArrayAdapter<Task>{
                 }
             });
 
+            /////////// Popupz informacjami o danym zadaniu z listy ////////////
+
+            WindowManager wm = (WindowManager) parent.getContext().getSystemService(Context.WINDOW_SERVICE);
+            Display display = wm.getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            final int popwidth = (int)(size.x * 0.7);
+            final int popheight = (int)(size.y * 0.7);
+
+            final String poptitle = tsk.getTitle();
+            final String popdescription = tsk.getDescription();
+            final String poppriority = Integer.toString(tsk.getPriority());
+            final String popdeadline = "deadline : " + getCurrentDeadline();
+
+            LinearLayout toInfoBtn = (LinearLayout) v.findViewById(R.id.toTaskInfoButton);
+            toInfoBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    popupLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View container = (View) popupLayoutInflater.inflate(R.layout.taskinfo_popup,null);
+
+                    // przekazywanie danych o task do popup'a
+                    TextView popTitleTW = (TextView) container.findViewById(R.id.popupTitle);
+                    TextView popDescriptionTW = (TextView) container.findViewById(R.id.popupDescription);
+                    TextView popPriorityTW = (TextView) container.findViewById(R.id.popupPriority);
+                    TextView popDeadlineTW = (TextView) container.findViewById(R.id.popupDeadline);
+
+                    popTitleTW.setText(poptitle);
+                    popDescriptionTW.setText(popdescription);
+                    popPriorityTW.setText(poppriority);
+                    popDeadlineTW.setText(popdeadline);
+
+                    //tworzenie nowego popup window
+                    taskInfoPopup = new PopupWindow(container,popwidth,popheight,true);
+                    //pokazywanie popup'a
+                    taskInfoPopup.showAtLocation(v, Gravity.CENTER, 0,0);
+                    //ustawianie listenera usuwajacego popupa
+                    container.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            taskInfoPopup.dismiss();
+                            return true;
+                        }
+                    });
+                }
+             //////////koniec popup'a /////////////////////////////////////
+
+            });
+
             if (tt1 != null) {
-               // Log.d("textviewfound","testviewfound" + tsk.getTitle());
+                // Log.d("textviewfound","testviewfound" + tsk.getTitle());
                 tt1.setText(tsk.getTitle());
             }
 
             if (tt2 != null) {
 
-                //roznica czasu miedzy deadlinem zadania a dzisiaj
-                Calendar tasktime = Calendar.getInstance();  //task time
-                tasktime.set(tsk.getYear(),tsk.getMonth(),tsk.getDay());
-                //Log.d("taskdate", Integer.toString(tsk.getYear())  + " " +  Integer.toString(tsk.getMonth()) + " " +   Integer.toString(tsk.getDay()));
-                Calendar currtime = Calendar.getInstance(); //current time
-                long diff = tasktime.getTimeInMillis() -currtime.getTimeInMillis(); //result in millis
-                long days = (diff / (24 * 60 * 60 * 1000))-1;
-                if(days<1 && days>-1){ tt2.setText("today!");} else
-                if(days==1){ tt2.setText("tommorow");} else
-                { tt2.setText(Integer.toString((int)days)+" days");  }
-
+                tt2.setText(getCurrentDeadline());
             }
         }
         return v;
     }
 
 
+    String getCurrentDeadline()
+    {
+        //roznica czasu miedzy deadlinem zadania a dzisiaj
+        Calendar tasktime = Calendar.getInstance();  //task time
+        tasktime.set(tsk.getYear(),tsk.getMonth(),tsk.getDay());
+        //Log.d("taskdate", Integer.toString(tsk.getYear())  + " " +  Integer.toString(tsk.getMonth()) + " " +   Integer.toString(tsk.getDay()));
+        Calendar currtime = Calendar.getInstance(); //current time
+        long diff = tasktime.getTimeInMillis() -currtime.getTimeInMillis(); //result in millis
+        long days = (diff / (24 * 60 * 60 * 1000))-1;
+        if(days<1 && days>-1){ return "today!";} else
+        if(days==1){ return "tommorow";} else
+        { return (Integer.toString((int)days)+" days");  }
 
+    }
 
 }
