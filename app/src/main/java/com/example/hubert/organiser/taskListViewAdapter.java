@@ -94,10 +94,10 @@ public class taskListViewAdapter extends ArrayAdapter<Task>{
             final int popwidth = (int)(size.x * 0.7);
             final int popheight = (int)(size.y * 0.7);
 
-            final String poptitle = tsk.getTitle();
-            final String popdescription = tsk.getDescription();
-            final String poppriority = Integer.toString(tsk.getPriority());
-            final String popdeadline = "deadline : " + getCurrentDeadline();
+            final String poptitle = "Title : " + tsk.getTitle();
+            final String popdescription = "Description : " + tsk.getDescription();
+            final String poppriority = "Priority : " + Integer.toString(tsk.getPriority());
+            final String popdeadline = "Deadline : " + getCurrentDeadline();
 
             LinearLayout toInfoBtn = (LinearLayout) v.findViewById(R.id.toTaskInfoButton);
             toInfoBtn.setOnClickListener(new View.OnClickListener() {

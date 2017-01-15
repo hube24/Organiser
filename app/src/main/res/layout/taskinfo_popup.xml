@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#ff0">
+    android:background="#3e606f">
 
     <TextView
         android:text="TextView"
+        android:textColor="#EEEFF7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="37dp"
@@ -14,6 +15,7 @@
 
     <TextView
         android:text="TextView"
+        android:textColor="#EEEFF7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/popupDeadline"
@@ -23,6 +25,7 @@
 
     <TextView
         android:text="TextView"
+        android:textColor="#EEEFF7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/popupPriority"
@@ -32,6 +35,7 @@
 
     <TextView
         android:text="TextView"
+        android:textColor="#EEEFF7"
         android:layout_width="200dp"
         android:layout_marginTop="14dp"
         android:id="@+id/popupDescription"
@@ -39,4 +43,15 @@
         android:textAlignment="center"
         android:layout_below="@+id/popupTitle"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="EDYTUJ"
+        android:background="#EEEFF7"
+        android:textColor="#3e606f"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/popupDeadline"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="58dp" />
+
 </RelativeLayout>
