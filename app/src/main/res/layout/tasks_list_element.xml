@@ -6,43 +6,66 @@
     android:orientation="horizontal"
     android:clickable="false">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="330dp"
-        android:layout_height="match_parent"
-        android:id="@+id/toTaskInfoButton"
-        android:clickable="true"
-        android:focusable="true">
-
-        <TextView
-            android:text="TextView"
-            android:layout_height="match_parent"
-            android:id="@+id/textViewElement"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:layout_width="281dp"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:duplicateParentState="true" />
-
-        <TextView
-            android:text="Tommorow"
-            android:layout_height="match_parent"
-            android:id="@+id/textViewTimeLeft"
-            android:gravity="center"
-            android:textSize="10sp"
-            android:layout_width="55dp"
-            android:layout_weight="1"
-            android:duplicateParentState="true" />
-    </LinearLayout>
-
-    <CheckBox
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/lvCheckBox"
-        android:gravity="right|center_vertical|center_horizontal|center"
-        android:scaleX="1.5"
-        android:scaleY="1.5"
-        android:layout_marginLeft="30dp" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_height="match_parent"
+            android:id="@+id/toTaskInfoButton"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/lvCheckBox"
+            android:layout_width="280dp"
+            android:layout_toLeftOf="@+id/lvCheckBox"
+            android:gravity="left"
+            android:weightSum="1">
+
+            <TextView
+                android:text="TextView"
+                android:layout_height="match_parent"
+                android:id="@+id/textViewElement"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:duplicateParentState="true"
+                android:layout_width="200dp"
+                android:textColor="#445878" />
+
+            <TextView
+                android:text="Tommorow"
+                android:layout_height="match_parent"
+                android:id="@+id/textViewTimeLeft"
+                android:textSize="10sp"
+                android:layout_alignBaseline="@+id/lvCheckBox"
+                android:layout_alignBottom="@+id/lvCheckBox"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:gravity="center"
+                android:layout_weight="0.32"
+                android:layout_width="60dp"
+                android:textColor="#445878" />
+
+        </LinearLayout>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lvCheckBox"
+            android:gravity="center"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:layout_weight="1"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="20dp"
+            android:textColor="#445878" />
+
+    </RelativeLayout>
 
 </LinearLayout>
