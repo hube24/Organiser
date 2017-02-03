@@ -159,10 +159,12 @@ public class taskListViewAdapter extends ArrayAdapter<Task>{
         //Log.d("taskdate", Integer.toString(tsk.getYear())  + " " +  Integer.toString(tsk.getMonth()) + " " +   Integer.toString(tsk.getDay()));
         Calendar currtime = Calendar.getInstance(); //current time
         long diff = tasktime.getTimeInMillis() -currtime.getTimeInMillis(); //result in millis
-        long days = (diff / (24 * 60 * 60 * 1000))-1;
-        if(days<1 && days>-1){ return "today!";} else
-        if(days==1){ return "tommorow";} else
-        { return (Integer.toString((int)days)+" days");  }
+
+        long hours= (diff / ( 60 * 60 * 1000));
+        Log.d("diff",Integer.toString((int)hours));
+        if(hours>-1 && hours<1){ return "today!";} else
+        if(hours>23 && hours<25){ return "tommorow";} else
+         return (Integer.toString((int)(hours/24))+" days");
 
     }
 
