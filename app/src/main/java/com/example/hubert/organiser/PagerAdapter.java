@@ -22,6 +22,8 @@ public class PagerAdapter extends FragmentPagerAdapter {
                 return new StartScreen();
             case 1:
                 return new CreateTaskScreen();
+            case 2:
+                return new TaskHistory();
             default: break;
         }
         return null;
@@ -29,7 +31,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 }
 

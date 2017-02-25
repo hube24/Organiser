@@ -19,9 +19,9 @@ import java.util.ArrayList;
 
 public class StartScreen extends Fragment {
 
-    ArrayList<String> TaskNames = new ArrayList<>();
-    ArrayAdapter<String> adapter;
-    ListView listView;
+    //ArrayList<String> TaskNames = new ArrayList<>();
+    // ArrayAdapter<String> adapter;
+    private ListView listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
@@ -30,6 +30,7 @@ public class StartScreen extends Fragment {
         ((Tasks)getActivity().getApplication()).setAdapter();
         listView = (ListView) v.findViewById(R.id.tasksListView);
         listView.setAdapter(((Tasks)getActivity().getApplication()).getAdapter());
+        ((Tasks)getActivity().getApplication()).clearList();
         ((Tasks)getActivity().getApplication()).loadTasks();
         return v;
     }

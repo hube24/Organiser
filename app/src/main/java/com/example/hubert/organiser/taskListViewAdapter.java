@@ -77,7 +77,8 @@ public class taskListViewAdapter extends ArrayAdapter<Task>{
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     //usuwanie zadania
                     if(isChecked) {
-                        db.deleteTask(tsk.getId());
+                        //db.deleteTask(tsk.getId());
+                        db.setCheckedTask(tsk.getId());
                         ((Tasks) tasksContext.getApplicationContext()).clearList();
                         ((Tasks) tasksContext.getApplicationContext()).loadTasks();
                         Log.d("task checked", "checked pos" + Integer.toString(position));

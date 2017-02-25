@@ -64,6 +64,8 @@ public class DataBase extends SQLiteOpenHelper{
         db.delete("tasks","id=?",args);
         Log.d("DataBase","Deleted id="+id);
     }
+
+
     public void changeTask(Task task){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -77,7 +79,7 @@ public class DataBase extends SQLiteOpenHelper{
         String[] args = {""+task.getId()};
         db.update("tasks",values,"id=?",args);
     }
-    public void checkingTask(int id){
+    public void setCheckedTask(int id){
         Task task=getTask(id);
         if(task.getChecked()==true) {
             task.setChecked(false);

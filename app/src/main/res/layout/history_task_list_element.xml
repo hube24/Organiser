@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:weightSum="1"
+    android:layout_height="60dp"
+    android:orientation="horizontal"
+    android:clickable="false">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_height="match_parent"
+            android:id="@+id/toTaskInfoButton"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/lvCheckBox"
+            android:layout_width="match_parent"
+            android:layout_toLeftOf="@+id/lvCheckBox"
+            android:gravity="left"
+            android:weightSum="1">
+
+            <TextView
+                android:text="TextView"
+                android:layout_height="match_parent"
+                android:id="@+id/textViewHistoryElement"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:duplicateParentState="true"
+                android:layout_width="250dp"
+                android:textColor="#445878"
+                android:layout_weight="0.66" />
+
+            <TextView
+                android:text="Yesterday"
+                android:layout_height="match_parent"
+                android:id="@+id/textViewDateOfGetDone"
+                android:textSize="10sp"
+                android:layout_alignBaseline="@+id/lvCheckBox"
+                android:layout_alignBottom="@+id/lvCheckBox"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:gravity="center"
+                android:layout_weight="0.32"
+                android:layout_width="60dp"
+                android:textColor="#445878" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
