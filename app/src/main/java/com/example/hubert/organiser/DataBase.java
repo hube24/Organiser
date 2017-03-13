@@ -7,6 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.lang.reflect.Array;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by BuzekxD on 2016-12-08.
  */
@@ -58,6 +63,34 @@ public class DataBase extends SQLiteOpenHelper{
             db.insertOrThrow("tips",null,values);
         }
     }
+    public int mostOften(String value){
+        SQLiteDatabase db = getReadableDatabase();
+        String[] setNames = {"title","day","month","year"};
+        String[] args = {value};
+        Cursor el = db.query("tasks",setNames,"title=?",args,null,null,null,null);
+
+        int howMany[] = new int[7];
+        while(el.moveToNext()){
+            int day=el.getInt(1),month=el.getInt(2),year=el.getInt(3);
+            Date date = new Date(year-1900,month,day);
+            DateFormat format2 = new SimpleDateFormat("EEEE");
+            String finalDay = format2.format(date);
+            Log.d("finalDay",""+finalDay);
+            howMany[weekdayToId(finalDay)]++;
+        }
+        int max=0,maxValue=-1;
+        for(int i=0; i<7; i++){
+            Log.d("ile",""+howMany[i]);
+        }
+        for(int i=0; i<7; i++){
+            if(howMany[i]>maxValue){
+                maxValue=howMany[i];
+                max=i;
+            }
+        }
+        Log.d("mosoften","mostoften "+max);
+        return max;
+    }
     public void deleteTask(int id){
         SQLiteDatabase db = getWritableDatabase();
         String[] args = {""+id};
@@ -106,6 +139,9 @@ public class DataBase extends SQLiteOpenHelper{
             task.setMonth(el.getInt(5));
             task.setYear(el.getInt(6));
             task.setChecked(el.getInt(7)>0);
+        }else{
+            Log.d("nic","nic");
+
         }
         return task;
     }
@@ -120,5 +156,23 @@ public class DataBase extends SQLiteOpenHelper{
         String[] args = {""+type};
         Cursor ret = db.query("tips",setNames,"type=?",args,null,null,null,null);
         return ret;
+    }
+
+    public int weekdayToId(String weekday){
+        if(weekday.equals("Monday"))return 0;
+        if(weekday.equals("Tuesday"))return 1;
+        if(weekday.equals("Wednesday"))return 2;
+        if(weekday.equals("Thursday"))return 3;
+        if(weekday.equals("Friday"))return 4;
+        if(weekday.equals("Saturday"))return 5;
+        if(weekday.equals("Sunday"))return 6;
+        return 0;
+    }
+    public int dayOfWeek(int year,int month, int day){
+        year-=1900;
+        Date d = new Date(year,month,day);
+        DateFormat format2 = new SimpleDateFormat("EEEE");
+        String finalDay = format2.format(d);
+        return weekdayToId(finalDay);
     }
 }
