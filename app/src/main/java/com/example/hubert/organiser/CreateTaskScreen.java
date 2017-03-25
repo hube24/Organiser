@@ -12,10 +12,13 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +36,7 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
     AutoCompleteTextView  TitleText;
     AutoCompleteTextView  DescriptionText;
     DatePicker DatePick;
+    TimePicker TimePick;
     SeekBar Priority;
     TextView ActualPriority;
     Button SaveButton;
@@ -40,17 +44,27 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.create_task_screen, container, false);
-
+        final LinearLayout OptionsLayout = (LinearLayout) v.findViewById(R.id.CreateTaskScreenOptions);
         TitleText = (AutoCompleteTextView) v.findViewById(R.id.titleText);
         DescriptionText = (AutoCompleteTextView) v.findViewById(R.id.descriptionText);
         DatePick = (DatePicker) v.findViewById(R.id.datePicker);
+        TimePick = (TimePicker) v.findViewById(R.id.timePicker);
+        TimePick.setIs24HourView(true);
         Priority = (SeekBar) v.findViewById(R.id.seekBar);
         Priority.setOnSeekBarChangeListener(this);
         ActualPriority = (TextView) v.findViewById(R.id.actual);
         SaveButton = (Button) v.findViewById(R.id.saveButton);
         SaveButton.setOnClickListener(this);
         reloadTips();
-
+        Button testButton=(Button) v.findViewById(R.id.testButton);
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView tvv=new TextView(getContext());
+                tvv.setText("textview");
+                OptionsLayout.addView(tvv);
+            }
+        });
         return  v;
     }
 

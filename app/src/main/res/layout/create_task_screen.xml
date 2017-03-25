@@ -15,10 +15,11 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:weightSum="1"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal = "true"
+
             >
 
             <AutoCompleteTextView
@@ -30,15 +31,13 @@
                 android:textColor="#445878"
                 android:textAlignment="center"
                 android:textSize="30sp"
-                android:layout_weight="0.02"
-                android:singleLine="false"
+                android:layout_weight="0.54"
                 android:contentDescription="Title"
                 android:text=""
                 android:hint="TITLE"
                 android:fontFamily="sans-serif"
                 android:background="@android:color/transparent"
-                android:layout_marginTop="10dp"
-                />
+                android:maxLines="1" />
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
@@ -49,7 +48,7 @@
                 android:layout_weight="0.58"
                 android:textColor="#445878"
                 android:textAlignment="center"
-                android:contentDescription="Description"
+                android:contentDescription=""
                 android:text=""
                 android:hint="DESCRIPTION"
                 android:layout_gravity="center"
@@ -58,19 +57,18 @@
                 />
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <TextView
                     android:text="PRIORITY"
                     android:layout_width="wrap_content"
-                    android:layout_height="48dp"
+                    android:layout_height="25dp"
                     android:id="@+id/textView"
                     android:textColor="#445878"
                     android:fontFamily="sans-serif"
                     android:textAlignment="center"
-                    android:layout_weight="0.71"
                     android:gravity="center"
                     android:layout_gravity="center"
                     />
@@ -126,11 +124,31 @@
                 android:layout_gravity="top|center_horizontal"
                 style="?android:attr/datePickerStyle"
                 android:calendarTextColor="#445878"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
-                android:spinnersShown="false"
+                android:datePickerMode="spinner"
+                android:calendarViewShown="false"
                 android:layout_marginTop="0dp"
-                android:layout_height="400dp" />
+                android:layout_height="100dp" />
+
+            <TimePicker
+                android:id="@+id/timePicker"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:timePickerMode="spinner" />
+
+            <Button
+                android:id="@+id/testButton"
+                android:layout_gravity="bottom|"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.54"
+                android:text="Dodaj" />
+
+            <LinearLayout
+                android:id="@+id/CreateTaskScreenOptions"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.54"
+                android:orientation="vertical"></LinearLayout>
 
             <Button
                 android:text="SAVE"
@@ -141,7 +159,8 @@
                 android:fontFamily="sans-serif-medium"
                 android:textColor="#fff"
                 android:background="#445878"
-                android:layout_gravity="center"
+                android:layout_gravity="bottom|center_horizontal"
+
                 android:layout_weight="0.30" />
 
         </LinearLayout>
