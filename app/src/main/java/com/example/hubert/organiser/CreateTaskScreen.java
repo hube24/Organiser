@@ -83,44 +83,12 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
         int day = DatePick.getDayOfMonth();
         int month = DatePick.getMonth();
         int year = DatePick.getYear();
-        Log.d("ymd",year+" "+month+" "+day);
 
 
         if(title.isEmpty())
         {
             Toast.makeText(getActivity(),"Please, fill the title first",Toast.LENGTH_SHORT).show();
             return;
-        }
-        int mostOftenDay=db.mostOften(title);
-        if(mostOftenDay!=db.dayOfWeek(year,month,day)){
-            int d1 = day-1, d2 = day+1;
-            Calendar c1 = Calendar.getInstance(),c2=Calendar.getInstance();
-            Date tempDate1 = new Date(year-1900,month,day);
-            c1.setTime(tempDate1);
-            c1.add(Calendar.DATE,-1);
-            tempDate1=c1.getTime();
-            while(mostOftenDay!=db.dayOfWeek(tempDate1.getYear()+1900,tempDate1.getMonth(),tempDate1.getDate())){
-                c1.setTime(tempDate1);
-                c1.add(Calendar.DATE,-1);
-                tempDate1=c1.getTime();
-            }
-            Date tempDate2 = new Date(year-1900,month,day);
-            c1.setTime(tempDate2);
-            c1.add(Calendar.DATE,1);
-            tempDate2=c1.getTime();
-            while(mostOftenDay!=db.dayOfWeek(tempDate2.getYear()+1900,tempDate2.getMonth(),tempDate2.getDate())){
-                c1.setTime(tempDate2);
-                c1.add(Calendar.DATE,1);
-                tempDate2=c1.getTime();
-            }
-            final Date today = new Date(),toChange;
-            if(tempDate1.before(today))
-                 toChange=tempDate2;
-            else
-                toChange=tempDate1;
-//            DatePick.updateDate(toChange.getYear(),toChange.getMonth(),toChange.getDate());
-            int tyear=toChange.getYear()+1900;
-            Toast.makeText(getActivity(),"I recommend date "+toChange.getDate()+"."+toChange.getMonth()+"."+tyear,Toast.LENGTH_SHORT).show();
         }
 
         Task ntask = new Task();
