@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_gravity="center_horizontal">
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.hubert.organiser.MapsActivity" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:gravity="left|center_vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="17dp"
+        android:layout_height="80dp">
+
+        <EditText
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/Map_searchField"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="260dp" />
+
+        <Button
+            android:text="Search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Map_SearchButton" />
+
+    </LinearLayout>
+
+    <Button
+        android:text="Save localisation"
+        android:id="@+id/Map_saveLocalisationButton"
+        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="19dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
