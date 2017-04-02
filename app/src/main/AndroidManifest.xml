@@ -42,7 +42,12 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps" />
+
+        <service
+            android:name=".GpsService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
