@@ -86,6 +86,7 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
     OptionObject[] OptionTab={
             new OptionObject("Przedmiot naukowy","Spinner","{Options: [\"J. Polski\",\"J. Angielski\",\"J. Niemiecki\",\"J. Francuski\",\"J. Hiszpański\",\"Matematyka\",\"Historia\",\"Informatyka\",\"Chemia\",\"Biologia\",\"Religia\",\"WF\",\"Fizyka\",\"Geografia\",\"EDB\",\"GW\"],Default : 1}","[\"szkola\",\"nauka\",\"uczyc\",\"zadanie\",\"domowe\",\"odrobic\",\"praca\",\"wyklad\",\"przedmiot\",\"lekcje\",\"lekcja\",\"zajecia\",\"zaleglosci\",\"edukacja\",\"uczelnia\",\"nauczyciel\",\"kolko\",\"egzamin\",\"sprawdzian\",\"kartkowka\",\"klasowka\",\"klasowe\",\"klasa\",\"wywiadowka\",\"korki\",\"korepetycje\"]")
             ,new OptionObject("Lokalizacja","MapView","","[\"zakupy\",\"kupic\",\"spotkanie\",\"spotkac,\"impreza\",\"rozmowa\",\"lekarz\",\"wizyta\",\"rehabilitacja\",\"zabieg\",\"komisja\",\"towarzyskie\"\",\"odwiedzic\",\"podejsc\",\"odebrac\",\"randka\",\"nocleg\",\"postoj\",\"miejsce\",\"lokalizacja\",\"gdzie\",\"wyklad\",\"prelekcja\",\"koncert\",\"wieczor\",\"wydarzenie\",\"mecz\",\"rozgrywka\",\"sparing\",\"konferencja\"]")
+            ,new OptionObject("Oczekiwany czas","NumberInput","","[\"zadanie\"]")
             //,new OptionObject("","","","")
     };
     String coords;
@@ -140,7 +141,7 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
         int day = DatePick.getDayOfMonth();
         int month = DatePick.getMonth();
         int year = DatePick.getYear();
-        int time = 1;//TimePick.getHour()*60+TimePick.getMinute();
+        int time = TimePick.getCurrentHour()*60+TimePick.getCurrentMinute();
         String details ="{";
         for(int i=0;i<OptionTab.length;i++) {
             if (OptionTab[i].clicked) {
@@ -154,6 +155,11 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
                         break;
                     case "MapView":
                         details+=("\""+coords+"\"");
+                        break;
+                    case "NumberInput":
+                        View myView2 = OptionsLayout.findViewById(R.id.element_expectedtime);
+                        EditText optEdittext = (EditText) myView2.findViewById(R.id.value);
+                        details+=("\""+optEdittext.getText().toString()+"\"");
                         break;
                 }
                 details+=",";
@@ -184,12 +190,14 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
         Priority.setProgress(1);
         DatePick.setActivated(false);
         DatePick.setActivated(true);
-
         final FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.detach(this);
         ft.attach(this);
         ft.commit();
-
+        for(int i=0;i<OptionTab.length;i++)
+            if (OptionTab[i].clicked)
+                OptionTab[i].click();
+        OptionsLayout.removeAllViews();
     }
     private void reloadTips(){
         ArrayList<String> titles = new ArrayList<String>();
@@ -262,6 +270,31 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
                 break;
             case "MapView":
                 openMapActivity();
+                break;
+            case "NumberInput":
+                OptionTab[id].click();
+                makeOptionSpinner();
+                try {
+                    LayoutInflater vi = (LayoutInflater) getContext().getSystemService(getContext().LAYOUT_INFLATER_SERVICE);
+                    View v = vi.inflate(R.layout.element_expectedtime, OptionsLayout, false);
+
+                    TextView opttextView = (TextView) v.findViewById(R.id.name);
+                    opttextView.setText(OptionTab[id].name);
+                    ImageButton optButton = (ImageButton) v.findViewById(R.id.closeButton);
+                    optButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            View myView = OptionsLayout.findViewById(R.id.element_expectedtime);
+                            ViewGroup parent = (ViewGroup) myView.getParent();
+                            parent.removeView(myView);
+                            OptionTab[id].click();
+                            Log.d("new View","Kliknieto3");
+                            makeOptionSpinner();
+                        }
+                    });
+                    OptionsLayout.addView(v);
+                    Log.d("new View","5");
+                } catch (Exception e){}
                 break;
         }
 //        TextView tvv=new TextView(getContext());
