@@ -185,11 +185,13 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
         Toast.makeText(getActivity(),"Task added",Toast.LENGTH_SHORT).show();
         reloadTips();
 
-        TitleText.setText("TITLE");
-        DescriptionText.setText("DESCRIPTION");
+        TitleText.setText("");
+        DescriptionText.setText("");
         Priority.setProgress(1);
         DatePick.setActivated(false);
         DatePick.setActivated(true);
+        TimePick.setActivated(false);
+        TimePick.setActivated(true);
         final FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.detach(this);
         ft.attach(this);

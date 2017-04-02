@@ -124,7 +124,7 @@ public class DataBase extends SQLiteOpenHelper{
     }
     public Cursor getTasks(String[] setNames){
         SQLiteDatabase db = getReadableDatabase();
-        Cursor ret = db.query("tasks",setNames,null,null,null,null,"checked, year, month, day, time, priority DESC",null);
+        Cursor ret = db.query("tasks",setNames,null,null,null,null, /*"checked, year, month, day, time, priority DESC"*/ null,null);
         return ret;
     }
     public Cursor getTips(int type){

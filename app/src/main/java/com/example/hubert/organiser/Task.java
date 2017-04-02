@@ -20,6 +20,7 @@ public class Task{
     private int time;
     private String details;
     private boolean checked;
+    private int pval;
 
     public void setTask(int nid, String ntitle, String ndescription, int npriority, int nday, int nmonth, int nyear, int ntime, String ndetails, boolean nchecked)
     {
@@ -54,9 +55,10 @@ public class Task{
     public void setDetails(String details){this.details = details;}
     public boolean getChecked(){return checked;}
     public void setChecked(boolean check){this.checked = check;}
+    public int getPval(){return pval;}
+    public void setPval(int pval){this.pval = pval;}
 
 
-    /*      STARE SORTOWANIE
     public static class Comparators {
 
         public static Comparator<Task> Prior = new Comparator<Task>() {
@@ -69,14 +71,18 @@ public class Task{
                     if(i==0){
                         i = obfirst.getDay() - obsecond.getDay();
                         if(i==0){
-                            i= obsecond.getPriority() - obfirst.getPriority();
+                            i= obsecond.getPval() - obfirst.getPval();
+                            if(i==0){
+                                i= obsecond.getPriority() - obfirst.getPriority();
+                                if(i==0){
+                                    i= obfirst.getTime() - obsecond.getTime();
+                                }
+                            }
                         }
                     }
                 }
                 return i;
             }
-
         };
     }
-    */
 }

@@ -5,10 +5,13 @@ import android.database.Cursor;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.ListIterator;
 
 
 /**
@@ -38,7 +41,7 @@ public class Tasks extends Application{
         HistoryTaskList.clear();
 //        Log.d("tasks","clear");
     }
-    public  void  updateList()
+    public void updateList()
     {
         adapter.notifyDataSetChanged();
         historyAdapter.notifyDataSetChanged();
@@ -53,12 +56,24 @@ public class Tasks extends Application{
         return historyAdapter;
     }
 
-    /*      STARE SORTOWANIE
-    public void sortTasks()
-    {
+    public void profilingList(){
+        for (final ListIterator<Task> i = TaskList.listIterator(); i.hasNext();) {
+            Task el = i.next();
+            el.setPval(0);
+            try {
+                int expecttime = (new JSONObject(el.getDetails())).getInt("Oczekiwany_czas");
+                int t=el.getPriority();
+                t=(expecttime*4);
+                Log.d("expecttime",el.getPriority()+"p + "+t+"t("+expecttime+")");
+                el.setPval(el.getPriority()+t);
+            } catch (Exception e){}
+            if(el.getPval()==0)
+                el.setPval(el.getPriority()*2);
+            Log.d("expecttime",el.getPval()+"pval");
+            i.set(el);
+        }
         Collections.sort(this.TaskList, Task.Comparators.Prior);
-        debug();
-    }*/
+    }
     public void loadTasks(){
         DataBase db = new DataBase(getApplicationContext());
         String[] setNames = {"id","title","description","priority","day","month","year","time","details","checked"};
@@ -73,6 +88,7 @@ public class Tasks extends Application{
                 this.TaskList.add(ntask);
             }
         }
+        profilingList();
         updateList();
     }
 
