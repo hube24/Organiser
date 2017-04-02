@@ -9,12 +9,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -23,11 +25,19 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -70,16 +80,16 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
     Button SaveButton;
     Spinner OptionSpinner;
     OptionObject[] OptionTab={
-            new OptionObject("Przedmiot naukowy","Spinner","{“Options”: [“J. Polski”,”J. Angielski”,”J. Niemiecki”,”J. Francuski”,”J. Hiszpański”,”Matematyka”,”Historia”,”Informatyka”,”Chemia”,”Biologia”,”Religia”,”WF”,”Fizyka”,”Geografia”,”EDB”,”GW”],”Default” : 1}","[“szkola”,”nauka”,”uczyc”,”zadanie”,”domowe”,”odrobic”,”praca”,”wyklad”,”przedmiot”,”lekcje”,”lekcja”,”zajecia”,”zaleglosci”,”edukacja”,”uczelnia”,”nauczyciel”,”kolko”,”egzamin”,”sprawdzian”,”kartkowka”,”klasowka”,”klasowe”,”klasa”,”wywiadowka”,”korki”,”korepetycje”]")
-            ,new OptionObject("Lokalizacja","MapView","","[“zakupy”,”kupic”,”spotkanie”,”spotkac,”impreza”,”rozmowa”,”lekarz”,”wizyta”,”rehabilitacja”,”zabieg”,”komisja”,”towarzyskie””,”odwiedzic”,”podejsc”,”odebrac”,”randka”,”nocleg”,”postoj”,”miejsce”,”lokalizacja”,”gdzie”,”wyklad”,”prelekcja”,”koncert”,”wieczor”,”wydarzenie”,”mecz”,”rozgrywka”,”sparing”,”konferencja”]")
+            new OptionObject("Przedmiot naukowy","Spinner","{Options: [\"J. Polski\",\"J. Angielski\",\"J. Niemiecki\",\"J. Francuski\",\"J. Hiszpański\",\"Matematyka\",\"Historia\",\"Informatyka\",\"Chemia\",\"Biologia\",\"Religia\",\"WF\",\"Fizyka\",\"Geografia\",\"EDB\",\"GW\"],Default : 1}","[\"szkola\",\"nauka\",\"uczyc\",\"zadanie\",\"domowe\",\"odrobic\",\"praca\",\"wyklad\",\"przedmiot\",\"lekcje\",\"lekcja\",\"zajecia\",\"zaleglosci\",\"edukacja\",\"uczelnia\",\"nauczyciel\",\"kolko\",\"egzamin\",\"sprawdzian\",\"kartkowka\",\"klasowka\",\"klasowe\",\"klasa\",\"wywiadowka\",\"korki\",\"korepetycje\"]")
+            ,new OptionObject("Lokalizacja","MapView","","[\"zakupy\",\"kupic\",\"spotkanie\",\"spotkac,\"impreza\",\"rozmowa\",\"lekarz\",\"wizyta\",\"rehabilitacja\",\"zabieg\",\"komisja\",\"towarzyskie\"\",\"odwiedzic\",\"podejsc\",\"odebrac\",\"randka\",\"nocleg\",\"postoj\",\"miejsce\",\"lokalizacja\",\"gdzie\",\"wyklad\",\"prelekcja\",\"koncert\",\"wieczor\",\"wydarzenie\",\"mecz\",\"rozgrywka\",\"sparing\",\"konferencja\"]")
             //,new OptionObject("","","","")
     };
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.create_task_screen, container, false);
-        OptionsLayout = (LinearLayout) v.findViewById(R.id.OptionsField);
         TitleText = (AutoCompleteTextView) v.findViewById(R.id.titleText);
         DescriptionText = (AutoCompleteTextView) v.findViewById(R.id.descriptionText);
+        OptionsLayout = (LinearLayout) v.findViewById(R.id.OptionsField);
         DatePick = (DatePicker) v.findViewById(R.id.datePicker);
         TimePick = (TimePicker) v.findViewById(R.id.timePicker);
         TimePick.setIs24HourView(true);
@@ -89,33 +99,26 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
         SaveButton = (Button) v.findViewById(R.id.saveButton);
         SaveButton.setOnClickListener(this);
         reloadTips();
-        Button testButton=(Button) v.findViewById(R.id.testButton);
-        testButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView tvv=new TextView(getContext());
-                tvv.setText("textview");
-                OptionsLayout.addView(tvv);
-            }
-        });
         OptionSpinner = (Spinner) v.findViewById(R.id.OptionsSpinner);
         makeOptionSpinner();
         OptionSpinner.setOnItemSelectedListener(this);
         return  v;
     }
     private void makeOptionSpinner(){
-        String[] values = new String[OptionTab.length+1];
+        int leng=0;
+        for(int i=0;i<OptionTab.length;i++)
+            if(!OptionTab[i].clicked)
+                leng++;
+        Log.d("spinner","Elementy: "+leng);
+        String[] values = new String[leng+1];
+        values[0]="Dodaj szczegóły:";
         int j=0;
         for(int i=0;i<OptionTab.length;i++)
             if(!OptionTab[i].clicked)
-                values[i-j]=OptionTab[i].name;
+                values[i-j+1]=OptionTab[i].name;
             else
                 j++;
-        String[] values2 = new String[OptionTab.length+1-j];
-        values2[0]="Nic";
-        for(int i=0;i<OptionTab.length-j;i++)
-            values2[i+1]=values[i];
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, values2);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, values);
         OptionSpinner.setAdapter(dataAdapter);
 
         Log.d("spinner","Generated");
@@ -169,16 +172,70 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
         /* przy obiektach typu 'Fragment' aby dzialaly przyciski, ustawiamy osobisty dla danego fragmentu 'listener'.
     Nastepnie przy nacisnieciu sprawdzamy id przycisku i wykonujemy odpowiednie dla niego akcje */
 
+    public int getIdByPosition(int position){
+        for(int i=0;i<OptionTab.length;i++){
+            if(!OptionTab[i].clicked)
+                position--;
+            if(position==0)
+                return i;
+        }
+        Log.d("spinner","Error? 89");
+        return (OptionTab.length-1);
+    }
+    public void addOptionELement(final int id){
+        switch (OptionTab[id].type){
+            case "Spinner":
+                try {
+                    JSONArray temp = (new JSONObject(OptionTab[id].options).getJSONArray("Options"));
+                    String[] values = new String[temp.length()];
+                    if (temp != null) {
+                        int len = temp.length();
+                        for (int i=0;i<len;i++){
+                            values[i]=(temp.get(i).toString());
+                        }
+                    }
+                    Log.d("new View","13");
+                    LayoutInflater vi = (LayoutInflater) getContext().getSystemService(getContext().LAYOUT_INFLATER_SERVICE);
+                    View v = vi.inflate(R.layout.element_spinner, OptionsLayout, false);
+
+                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, values);
+                    TextView opttextView = (TextView) v.findViewById(R.id.name);
+                    opttextView.setText(OptionTab[id].name);
+                    Spinner optSpinner = (Spinner) v.findViewById(R.id.spinner);
+                    optSpinner.setAdapter(dataAdapter);
+                    ImageButton optButton = (ImageButton) v.findViewById(R.id.closeButton);
+                    optButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            View myView = OptionsLayout.findViewById(R.id.element_spinner);
+                            ViewGroup parent = (ViewGroup) myView.getParent();
+                            parent.removeView(myView);
+                            OptionTab[id].click();
+                            Log.d("new View","Kliknieto");
+                            makeOptionSpinner();
+                        }
+                    });
+                    OptionsLayout.addView(v);
+                    Log.d("new View","123");
+                } catch (Exception e){}
+                break;
+        }
+//        TextView tvv=new TextView(getContext());
+//        tvv.setText("textview");
+//        OptionsLayout.addView(tvv);
+    }
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Log.d("spinner","Selected: " + position + "/" + id);
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long idunused) {
 //        String item = parent.getItemAtPosition(position).toString();
         if(position==0)
             return;
-//        OptionTab[position-1].click();
+        int id=getIdByPosition(position);
+        Log.d("spinner","Selected: " + position + "/" + id);
+        OptionTab[id].click();
         makeOptionSpinner();
         OptionSpinner.setSelection(0);
-    //    Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+        addOptionELement(id);
+        //    Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
     }
     public void onNothingSelected(AdapterView<?> arg0) {
         //  Auto-generated method stub

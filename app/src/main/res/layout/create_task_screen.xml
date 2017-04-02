@@ -142,14 +142,6 @@
                 android:layout_weight="0.54"
                 android:background="@android:drawable/btn_dropdown" />
 
-            <Button
-                android:id="@+id/testButton"
-                android:layout_gravity="bottom|"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.54"
-                android:text="Dodaj" />
-
             <LinearLayout
                 android:id="@+id/OptionsField"
                 android:layout_width="match_parent"
