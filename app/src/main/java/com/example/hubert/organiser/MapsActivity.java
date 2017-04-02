@@ -27,6 +27,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button searchBtn;
     private Button saveBtn;
     private String currentCoords = null;
+    private String addressname = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +72,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LatLng latLng = new LatLng(address.getLatitude() , address.getLongitude());
 
             mMap.clear();
-            String addressname = address.getAddressLine(0);
+            addressname = address.getAddressLine(0);
             mMap.addMarker(new MarkerOptions().position(latLng).title(addressname));
 
             mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -89,6 +90,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(currentCoords!=null) {
             Intent intent = new Intent();
             intent.putExtra("coords", currentCoords);
+            intent.putExtra("address", addressname);
             setResult(RESULT_OK, intent);
             finish();
         }else{

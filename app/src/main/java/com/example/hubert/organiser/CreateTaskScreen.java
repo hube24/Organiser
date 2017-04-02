@@ -1,6 +1,7 @@
 package com.example.hubert.organiser;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,6 +39,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -224,6 +227,35 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
 //        tvv.setText("textview");
 //        OptionsLayout.addView(tvv);
     }
+//funkcja otwierająca aztivity z mapa
+    private  void openMapActivity()
+    {
+        Intent mapIntent = new Intent(getActivity(), MapsActivity.class);
+        startActivityForResult(mapIntent,1);
+    }
+
+// funkcja czekajaca na zwrotna informacje z mapActivity
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                String coords = data.getStringExtra("coords");
+                String address = data.getStringExtra("address");
+
+                ////....................................////
+                //tutaj dopisanie wpolrzednych do database//
+                //i dopisanie adresu gdzies w create task///
+                ////....................................////
+
+                Toast.makeText(getActivity(),"saving localisation: "+ address ,Toast.LENGTH_SHORT).show();
+                //
+            }
+        }
+    }
+
+
+
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long idunused) {
 //        String item = parent.getItemAtPosition(position).toString();
