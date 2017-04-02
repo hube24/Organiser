@@ -61,7 +61,7 @@ public class Tasks extends Application{
     }*/
     public void loadTasks(){
         DataBase db = new DataBase(getApplicationContext());
-        String[] setNames = {"id","title","description","priority","day","month","year","time","description","checked"};
+        String[] setNames = {"id","title","description","priority","day","month","year","time","details","checked"};
         Cursor el = db.getTasks(setNames);
         while (el.moveToNext()){
             Task ntask = new Task();

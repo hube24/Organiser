@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -139,7 +140,7 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
         int day = DatePick.getDayOfMonth();
         int month = DatePick.getMonth();
         int year = DatePick.getYear();
-        int time = TimePick.getHour()*60+TimePick.getMinute();
+        int time = 1;//TimePick.getHour()*60+TimePick.getMinute();
         String details ="{";
         for(int i=0;i<OptionTab.length;i++) {
             if (OptionTab[i].clicked) {
@@ -177,6 +178,18 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
         ((Tasks)getActivity().getApplication()).loadTasks();
         Toast.makeText(getActivity(),"Task added",Toast.LENGTH_SHORT).show();
         reloadTips();
+
+        TitleText.setText("TITLE");
+        DescriptionText.setText("DESCRIPTION");
+        Priority.setProgress(1);
+        DatePick.setActivated(false);
+        DatePick.setActivated(true);
+
+        final FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this);
+        ft.attach(this);
+        ft.commit();
+
     }
     private void reloadTips(){
         ArrayList<String> titles = new ArrayList<String>();

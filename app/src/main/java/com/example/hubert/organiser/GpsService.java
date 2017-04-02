@@ -5,26 +5,39 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
+import android.util.FloatProperty;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.google.android.gms.maps.model.LatLng;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Created by Hubert on 2017-03-25.
  */
 
 
+
+
+
 public class GpsService extends Service {
     private static final String TAG = "GPSTEST";
     private LocationManager mLocationManager = null;
-    private static final int LOCATION_INTERVAL = 60*1000;
+    private static final int LOCATION_INTERVAL = 1000;
     private static final float LOCATION_DISTANCE = 10f;
 
     private class LocationListener implements android.location.LocationListener {
         Location mLastLocation;
+        Float minDist = 300f;
+
 
         public LocationListener(String provider) {
             Log.d(TAG, "LocationListener " + provider);
@@ -38,10 +51,53 @@ public class GpsService extends Service {
             mLastLocation.set(location);
             Log.d(TAG, "location changed: " + Double.toString( location.getLatitude() ) + " " + Double.toString( location.getAltitude() ));
 
+
+            DataBase db = new DataBase(getApplicationContext());
+            String[] setNames = {"id","title","description","priority","day","month","year","time","details","checked"};
+            Cursor el = db.getTasks(setNames);
+            while (el.moveToNext()){
+                Task ntask = new Task();
+                    ntask.setTask(el.getInt(0), el.getString(1), el.getString(2), el.getInt(3), el.getInt(4), el.getInt(5), el.getInt(6), el.getInt(7), el.getString(8), el.getInt(9)>0 );
+                if(!ntask.getChecked() && ntask.getDetails()!= null) {
+                    try {
+                        String coords = (new JSONObject(ntask.getDetails())).getString("Lokalizacja");
+                        if(!coords.equals("")) {
+                            Log.d("TAG", "COORDS OF TASK " + coords);
+                            double lat1 = location.getLatitude();
+                            double long1 = location.getLongitude();
+
+
+                            String[] latlong = coords.split(",");
+                            double lat2 = Double.parseDouble(latlong[0]);
+                            double long2 = Double.parseDouble(latlong[1]);
+
+                            float[] dist = new float[1];
+                            Location.distanceBetween(lat1, long1, lat2, long2, dist);
+                            Log.d("TAG", "dist" + Float.toString(dist[0]));
+
+                            if (dist[0] <= minDist) {
+                                Log.d("TAG", "checked!");
+                                ntask.setChecked(true);
+                                db.setCheckedTask(ntask.getId());
+                                ((Tasks) getApplicationContext()).clearList();
+                                ((Tasks) getApplicationContext()).loadTasks();
+                                Toast.makeText(getApplication(), "You arrived on place: " + ntask.getTitle(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    } catch (Exception e) { }
+                }
+
+            }
+
+
+
             //////////////////////////////
             //check for tasks to uncheck//
             //////////////////////////////
         }
+
+
+
 
         @Override
         public void onProviderDisabled(String provider) {

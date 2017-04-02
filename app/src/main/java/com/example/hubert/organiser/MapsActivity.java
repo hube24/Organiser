@@ -76,7 +76,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.addMarker(new MarkerOptions().position(latLng).title(addressname));
 
             mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-            currentCoords = latLng.toString();
+            currentCoords = Double.toString(latLng.latitude) + "," + Double.toString(latLng.longitude);
 
         }else {
             Toast.makeText(this,"Please, enter location first",Toast.LENGTH_SHORT).show();
