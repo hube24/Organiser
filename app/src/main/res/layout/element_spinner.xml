@@ -5,34 +5,33 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:id="@+id/element_spinner"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="34dp"
-        android:orientation="horizontal">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="316dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.01"
+            android:layout_width="354dp"
+            android:layout_height="20dp"
             android:text="Name" />
 
-        <ImageButton
-            android:id="@+id/closeButton"
-            android:layout_width="27dp"
-            android:layout_height="30dp"
-            app:srcCompat="@android:drawable/ic_delete" />
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="354dp"
+            android:layout_height="50px" />
 
 
     </LinearLayout>
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.04" />
+    <ImageButton
+        android:id="@+id/closeButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:srcCompat="@android:drawable/ic_delete" />
+
 
 </LinearLayout>

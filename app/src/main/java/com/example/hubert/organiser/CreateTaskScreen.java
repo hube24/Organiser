@@ -87,6 +87,8 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
             ,new OptionObject("Lokalizacja","MapView","","[\"zakupy\",\"kupic\",\"spotkanie\",\"spotkac,\"impreza\",\"rozmowa\",\"lekarz\",\"wizyta\",\"rehabilitacja\",\"zabieg\",\"komisja\",\"towarzyskie\"\",\"odwiedzic\",\"podejsc\",\"odebrac\",\"randka\",\"nocleg\",\"postoj\",\"miejsce\",\"lokalizacja\",\"gdzie\",\"wyklad\",\"prelekcja\",\"koncert\",\"wieczor\",\"wydarzenie\",\"mecz\",\"rozgrywka\",\"sparing\",\"konferencja\"]")
             //,new OptionObject("","","","")
     };
+    String coords;
+    String address;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.create_task_screen, container, false);
@@ -137,7 +139,28 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
         int day = DatePick.getDayOfMonth();
         int month = DatePick.getMonth();
         int year = DatePick.getYear();
-
+        int time = TimePick.getHour()*60+TimePick.getMinute();
+        String details ="{";
+        for(int i=0;i<OptionTab.length;i++) {
+            if (OptionTab[i].clicked) {
+                details+=OptionTab[i].name.replaceAll(" ","_");
+                details+=": ";
+                switch (OptionTab[i].type) {
+                    case "Spinner":
+                        View myView = OptionsLayout.findViewById(R.id.element_spinner);
+                        Spinner optSpinner = (Spinner) myView.findViewById(R.id.spinner);
+                        details+=("\""+optSpinner.getSelectedItem().toString()+"\"");
+                        break;
+                    case "MapView":
+                        details+=("\""+coords+"\"");
+                        break;
+                }
+                details+=",";
+            }
+        }
+        details = details.substring(0, details.length()-1);
+        details+="}";
+        Log.d("db adding",details);
 
         if(title.isEmpty())
         {
@@ -146,7 +169,7 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
         }
 
         Task ntask = new Task();
-        ntask.setTask(0,title, description, priority, day, month, year,false);
+        ntask.setTask(0,title, description, priority, day, month, year, time, details, false);
         db.addTask(ntask);
         db.addTip(title,0);
         db.addTip(description,1);
@@ -188,6 +211,8 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
     public void addOptionELement(final int id){
         switch (OptionTab[id].type){
             case "Spinner":
+                OptionTab[id].click();
+                makeOptionSpinner();
                 try {
                     JSONArray temp = (new JSONObject(OptionTab[id].options).getJSONArray("Options"));
                     String[] values = new String[temp.length()];
@@ -222,13 +247,16 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
                     Log.d("new View","123");
                 } catch (Exception e){}
                 break;
+            case "MapView":
+                openMapActivity();
+                break;
         }
 //        TextView tvv=new TextView(getContext());
 //        tvv.setText("textview");
 //        OptionsLayout.addView(tvv);
     }
 //funkcja otwierająca aztivity z mapa
-    private  void openMapActivity()
+    private void openMapActivity()
     {
         Intent mapIntent = new Intent(getActivity(), MapsActivity.class);
         startActivityForResult(mapIntent,1);
@@ -239,8 +267,30 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if(resultCode == RESULT_OK) {
-                String coords = data.getStringExtra("coords");
-                String address = data.getStringExtra("address");
+                coords = data.getStringExtra("coords");
+                address = data.getStringExtra("address");
+                OptionTab[1].click();
+                makeOptionSpinner();
+                LayoutInflater vi = (LayoutInflater) getContext().getSystemService(getContext().LAYOUT_INFLATER_SERVICE);
+                View v = vi.inflate(R.layout.element_location, OptionsLayout, false);
+
+                TextView opttextView = (TextView) v.findViewById(R.id.name);
+                opttextView.setText("Lokalizacja: "+address);
+
+                ImageButton optButton = (ImageButton) v.findViewById(R.id.closeButton);
+                optButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        View myView = OptionsLayout.findViewById(R.id.element_location);
+                        ViewGroup parent = (ViewGroup) myView.getParent();
+                        parent.removeView(myView);
+                        OptionTab[1].click();
+                        Log.d("new View","Kliknieto2");
+                        makeOptionSpinner();
+                    }
+                });
+                OptionsLayout.addView(v);
+                Log.d("new View","4");
 
                 ////....................................////
                 //tutaj dopisanie wpolrzednych do database//
@@ -263,10 +313,8 @@ public class CreateTaskScreen extends Fragment implements View.OnClickListener, 
             return;
         int id=getIdByPosition(position);
         Log.d("spinner","Selected: " + position + "/" + id);
-        OptionTab[id].click();
-        makeOptionSpinner();
-        OptionSpinner.setSelection(0);
         addOptionELement(id);
+        OptionSpinner.setSelection(0);
         //    Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
     }
     public void onNothingSelected(AdapterView<?> arg0) {

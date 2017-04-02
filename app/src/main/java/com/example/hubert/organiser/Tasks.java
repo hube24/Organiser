@@ -61,11 +61,11 @@ public class Tasks extends Application{
     }*/
     public void loadTasks(){
         DataBase db = new DataBase(getApplicationContext());
-        String[] setNames = {"id","title","description","priority","day","month","year","checked"};
+        String[] setNames = {"id","title","description","priority","day","month","year","time","description","checked"};
         Cursor el = db.getTasks(setNames);
         while (el.moveToNext()){
             Task ntask = new Task();
-            ntask.setTask(el.getInt(0), el.getString(1), el.getString(2), el.getInt(3), el.getInt(4), el.getInt(5), el.getInt(6), el.getInt(7)>0 );
+            ntask.setTask(el.getInt(0), el.getString(1), el.getString(2), el.getInt(3), el.getInt(4), el.getInt(5), el.getInt(6), el.getInt(7), el.getString(8), el.getInt(9)>0 );
 
             if(ntask.getChecked()){
                 this.HistoryTaskList.add(ntask);

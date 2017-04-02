@@ -17,9 +17,11 @@ public class Task{
     private int day;
     private int month;
     private int year;
+    private int time;
+    private String details;
     private boolean checked;
 
-    public void setTask(int nid, String ntitle, String ndescription, int npriority, int nday, int nmonth, int nyear, boolean nchecked)
+    public void setTask(int nid, String ntitle, String ndescription, int npriority, int nday, int nmonth, int nyear, int ntime, String ndetails, boolean nchecked)
     {
         id = nid;
         title = ntitle;
@@ -28,6 +30,8 @@ public class Task{
         day = nday;
         month = nmonth;
         year = nyear;
+        time = ntime;
+        details = ndetails;
         checked = nchecked;
     }
     public int getId() {return id;}
@@ -44,6 +48,10 @@ public class Task{
     public void setMonth(int month){this.month = month;}
     public int getYear(){return year;}
     public void setYear(int year){this.year = year;}
+    public int getTime(){return time;}
+    public void setTime(int time){this.time = time;}
+    public String getDetails(){return details;}
+    public void setDetails(String details){this.details = details;}
     public boolean getChecked(){return checked;}
     public void setChecked(boolean check){this.checked = check;}
 
