@@ -4,6 +4,8 @@ import android.app.Application;
 import android.database.Cursor;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import org.json.JSONObject;
 
@@ -25,11 +27,12 @@ public class Tasks extends Application{
     taskListViewAdapter adapter;
     List<Task> HistoryTaskList = new ArrayList<>();
     historyTaskListViewAdapter historyAdapter;
-
+    private int ProfilId= 1;
     public void addTask(Task t)
     {
         this.TaskList.add(t);
     }
+    public void setProfilId(int ProfilId){this.ProfilId=ProfilId;};
 
     public void setAdapter()
     {
@@ -59,18 +62,33 @@ public class Tasks extends Application{
     public void profilingList(){
         for (final ListIterator<Task> i = TaskList.listIterator(); i.hasNext();) {
             Task el = i.next();
-            el.setPval(0);
-            try {
-                int expecttime = (new JSONObject(el.getDetails())).getInt("Oczekiwany_czas");
-                int t=el.getPriority();
-                t=(expecttime*4);
-                Log.d("expecttime",el.getPriority()+"p + "+t+"t("+expecttime+")");
-                el.setPval(el.getPriority()+t);
-            } catch (Exception e){}
-            if(el.getPval()==0)
-                el.setPval(el.getPriority()*2);
-            Log.d("expecttime",el.getPval()+"pval");
-            i.set(el);
+            switch(ProfilId){
+                case 1:
+                    el.setPval(0);
+                    try {
+                        int expecttime = (new JSONObject(el.getDetails())).getInt("Oczekiwany_czas");
+                        int t=(expecttime*4);
+                        Log.d("expecttime",el.getPriority()+"p + "+t+"t("+expecttime+")");
+                        el.setPval(el.getPriority()+t);
+                    } catch (Exception e){}
+                    if(el.getPval()==0)
+                        el.setPval(el.getPriority()*2);
+                    Log.d("expecttime1",el.getPval()+"pval");
+                    i.set(el);
+                    break;
+                case 2:
+                    el.setPval(0);
+                    try {
+                        int expecttime = (new JSONObject(el.getDetails())).getInt("Oczekiwany_czas");
+                        int t=(expecttime*4);
+                        el.setPval(10-el.getPriority()+t);
+                    } catch (Exception e){}
+                    if(el.getPval()==0)
+                        el.setPval(20-el.getPriority()*2);
+                    Log.d("expecttime2",el.getPval()+"pval");
+                    i.set(el);
+                    break;
+            }
         }
         Collections.sort(this.TaskList, Task.Comparators.Prior);
     }
